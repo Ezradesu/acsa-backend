@@ -1,0 +1,256 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "@prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Create database schema
+model User {
+  id         String   @id @default(uuid())
+  first_name String
+  last_name  String
+  address    String?
+  rt         String?
+  rw         String?
+  zip_code   String?
+  email      String   @unique
+  password   String
+  role       String   @default("user")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  orders    Order[]
+  reviews   Review[]
+  carts     Cart[]
+  wishlists Wishlist[]
+}
+
+model Cart {
+  id         String     @id @default(uuid())
+  id_user    String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  user       User       @relation(fields: [id_user], references: [id])
+  items      CartItem[]
+}
+
+model CartItem {
+  id         Int     @id @default(autoincrement())
+  id_cart    String
+  id_product String
+  quantity   Int     @default(1)
+  cart       Cart    @relation(fields: [id_cart], references: [id])
+  product    Product @relation(fields: [id_product], references: [id])
+}
+
+model Wishlist {
+  id         String         @id @default(uuid())
+  id_user    String
+  created_at DateTime       @default(now())
+  user       User           @relation(fields: [id_user], references: [id])
+  items      WishlistItem[]
+}
+
+model WishlistItem {
+  id          Int      @id @default(autoincrement())
+  id_wishlist String
+  id_product  String
+  wishlist    Wishlist @relation(fields: [id_wishlist], references: [id])
+  product     Product  @relation(fields: [id_product], references: [id])
+}
+
+model Order {
+  id         String       @id @default(uuid())
+  id_user    String
+  total      Decimal
+  status     String       @default("pending")
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+  user       User         @relation(fields: [id_user], references: [id])
+  items      OrderItems[]
+}
+
+model OrderItems {
+  id         Int      @id @default(autoincrement())
+  id_order   String
+  id_product String
+  quantity   Int
+  price      Decimal
+  date       DateTime @default(now())
+  order      Order    @relation(fields: [id_order], references: [id])
+  product    Product  @relation(fields: [id_product], references: [id])
+}
+
+model Brand {
+  id        Int     @id @default(autoincrement())
+  name      String
+  image_url String?
+
+  products        Product[]
+  sponsoredBrands SponsoredBrand[]
+  banners         Banner[]
+}
+
+model SponsoredBrand {
+  id         Int      @id @default(autoincrement())
+  id_brand   Int
+  priority   Int      @default(0)
+  start_date DateTime
+  end_date   DateTime
+  brand      Brand    @relation(fields: [id_brand], references: [id])
+}
+
+model Banner {
+  id         Int      @id @default(autoincrement())
+  id_brand   Int
+  name       String
+  category   String?
+  image_url  String?
+  start_date DateTime
+  end_date   DateTime
+  brand      Brand    @relation(fields: [id_brand], references: [id])
+}
+
+model Category {
+  id       Int               @id @default(autoincrement())
+  name     String            @unique
+  products ProductCategory[]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  id_brand    Int
+  name        String
+  description String?
+  type        String?
+  price       Decimal
+  quantity    Int      @default(0)
+  pk          String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  brand       Brand    @relation(fields: [id_brand], references: [id])
+
+  categories       ProductCategory[]
+  images           ProductImages[]
+  cartItems        CartItem[]
+  wishlistItems    WishlistItem[]
+  orderItems       OrderItems[]
+  reviews          Review[]
+  discounts        Discount[]
+  featuredProducts FeaturedProduct[]
+  projects         Project[]
+}
+
+model ProductCategory {
+  id_product  String
+  id_category Int
+  product     Product  @relation(fields: [id_product], references: [id])
+  category    Category @relation(fields: [id_category], references: [id])
+
+  @@id([id_product, id_category])
+}
+
+model ProductImages {
+  id         Int     @id @default(autoincrement())
+  id_product String
+  image_url  String
+  product    Product @relation(fields: [id_product], references: [id])
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  id_product String
+  id_user    String
+  rating     Int
+  comment    String?
+  created_at DateTime @default(now())
+  product    Product  @relation(fields: [id_product], references: [id])
+  user       User     @relation(fields: [id_user], references: [id])
+}
+
+model Discount {
+  id         Int      @id @default(autoincrement())
+  id_product String
+  price      Decimal
+  start_date DateTime
+  end_date   DateTime
+  product    Product  @relation(fields: [id_product], references: [id])
+}
+
+model FeaturedProduct {
+  id         Int      @id @default(autoincrement())
+  id_product String
+  priority   Int      @default(0)
+  start_date DateTime
+  end_date   DateTime
+  product    Product  @relation(fields: [id_product], references: [id])
+}
+
+model Project {
+  id          Int             @id @default(autoincrement())
+  id_product  String
+  name        String
+  description String?
+  date        DateTime?
+  location    String?
+  category    String?
+  product     Product         @relation(fields: [id_product], references: [id])
+  images      ProjectImages[]
+}
+
+model ProjectImages {
+  id         Int     @id @default(autoincrement())
+  id_project Int
+  image_url  String
+  project    Project @relation(fields: [id_project], references: [id])
+}
+
+model Article {
+  id          Int             @id @default(autoincrement())
+  name        String
+  description String?
+  category    String?
+  created_at  DateTime        @default(now())
+  updated_at  DateTime        @updatedAt
+  images      ArticleImages[]
+}
+
+model ArticleImages {
+  id         Int     @id @default(autoincrement())
+  id_artikel Int
+  image_url  String
+  article    Article @relation(fields: [id_artikel], references: [id])
+}
+
+model Company {
+  id           Int     @id @default(autoincrement())
+  logo_url     String?
+  name         String
+  description  String?
+  email        String?
+  phone        String?
+  location     String?
+  location_url String?
+}
+
+model SocialMedia {
+  id   Int     @id @default(autoincrement())
+  name String
+  icon String?
+  url  String
+}
+
+model Staff {
+  id        Int     @id @default(autoincrement())
+  name      String
+  role      String?
+  image_url String?
+}
