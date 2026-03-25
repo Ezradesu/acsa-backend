@@ -23,10 +23,22 @@ import { CartModule } from './cart/cart.module';
 import { WishlistService } from './wishlist/wishlist.service';
 import { WishlistController } from './wishlist/wishlist.controller';
 import { WishlistModule } from './wishlist/wishlist.module';
+import { DiscountsService } from './discounts/discounts.service';
+import { DiscountsController } from './discounts/discounts.controller';
+import { DiscountsModule } from './discounts/discounts.module';
+import { ReviewsService } from './reviews/reviews.service';
+import { ReviewsController } from './reviews/reviews.controller';
+import { ReviewsModule } from './reviews/reviews.module';
+import { FeaturedProductsService } from './featured-products/featured-products.service';
+import { FeaturedProductsController } from './featured-products/featured-products.controller';
+import { FeaturedProductsModule } from './featured-products/featured-products.module';
+import { SponsoredBrandsService } from './sponsored-brands/sponsored-brands.service';
+import { SponsoredBrandsController } from './sponsored-brands/sponsored-brands.controller';
+import { SponsoredBrandsModule } from './sponsored-brands/sponsored-brands.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, SupabaseModule, CategoriesModule, BrandsModule, ProductsModule, OrdersModule, CartModule, WishlistModule],
-  controllers: [AppController, CategoriesController, BrandsController, ProductsController, OrdersController, CartController, WishlistController],
-  providers: [AppService, SupabaseService, CategoriesService, BrandsService, ProductsService, OrdersService, CartService, WishlistService],
+  imports: [PrismaModule, AuthModule, SupabaseModule, CategoriesModule, BrandsModule, ProductsModule, OrdersModule, CartModule, WishlistModule, DiscountsModule, ReviewsModule, FeaturedProductsModule, SponsoredBrandsModule],
+  controllers: [AppController, CategoriesController, BrandsController, ProductsController, OrdersController, CartController, WishlistController, DiscountsController, ReviewsController, FeaturedProductsController, SponsoredBrandsController],
+  providers: [AppService, SupabaseService, CategoriesService, BrandsService, ProductsService, OrdersService, CartService, WishlistService, DiscountsService, ReviewsService, FeaturedProductsService, SponsoredBrandsService],
 })
 export class AppModule { }
