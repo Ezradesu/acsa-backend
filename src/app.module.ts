@@ -35,10 +35,28 @@ import { FeaturedProductsModule } from './featured-products/featured-products.mo
 import { SponsoredBrandsService } from './sponsored-brands/sponsored-brands.service';
 import { SponsoredBrandsController } from './sponsored-brands/sponsored-brands.controller';
 import { SponsoredBrandsModule } from './sponsored-brands/sponsored-brands.module';
+import { BannersService } from './banners/banners.service';
+import { BannersController } from './banners/banners.controller';
+import { BannersModule } from './banners/banners.module';
+import { ProjectsService } from './projects/projects.service';
+import { ProjectsController } from './projects/projects.controller';
+import { ProjectsModule } from './projects/projects.module';
+import { ArticlesService } from './articles/articles.service';
+import { ArticlesController } from './articles/articles.controller';
+import { ArticlesModule } from './articles/articles.module';
+import { CompanyService } from './company/company.service';
+import { CompanyController } from './company/company.controller';
+import { CompanyModule } from './company/company.module';
+import { SocialMediaService } from './social-media/social-media.service';
+import { SocialMediaController } from './social-media/social-media.controller';
+import { SocialMediaModule } from './social-media/social-media.module';
+import { StaffService } from './staff/staff.service';
+import { StaffController } from './staff/staff.controller';
+import { StaffModule } from './staff/staff.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, SupabaseModule, CategoriesModule, BrandsModule, ProductsModule, OrdersModule, CartModule, WishlistModule, DiscountsModule, ReviewsModule, FeaturedProductsModule, SponsoredBrandsModule],
-  controllers: [AppController, CategoriesController, BrandsController, ProductsController, OrdersController, CartController, WishlistController, DiscountsController, ReviewsController, FeaturedProductsController, SponsoredBrandsController],
-  providers: [AppService, SupabaseService, CategoriesService, BrandsService, ProductsService, OrdersService, CartService, WishlistService, DiscountsService, ReviewsService, FeaturedProductsService, SponsoredBrandsService],
+  imports: [PrismaModule, AuthModule, SupabaseModule, CategoriesModule, BrandsModule, ProductsModule, OrdersModule, CartModule, WishlistModule, DiscountsModule, ReviewsModule, FeaturedProductsModule, SponsoredBrandsModule, BannersModule, ProjectsModule, ArticlesModule, CompanyModule, SocialMediaModule, StaffModule],
+  controllers: [AppController, CategoriesController, BrandsController, ProductsController, OrdersController, CartController, WishlistController, DiscountsController, ReviewsController, FeaturedProductsController, SponsoredBrandsController, BannersController, ProjectsController, ArticlesController, CompanyController, SocialMediaController, StaffController],
+  providers: [AppService, SupabaseService, CategoriesService, BrandsService, ProductsService, OrdersService, CartService, WishlistService, DiscountsService, ReviewsService, FeaturedProductsService, SponsoredBrandsService, BannersService, ProjectsService, ArticlesService, CompanyService, SocialMediaService, StaffService],
 })
 export class AppModule { }
