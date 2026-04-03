@@ -2303,6 +2303,8 @@ export const OrderScalarFieldEnum = {
   id_user: 'id_user',
   total: 'total',
   status: 'status',
+  snap_token: 'snap_token',
+  snap_redirect: 'snap_redirect',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const

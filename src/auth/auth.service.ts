@@ -61,4 +61,22 @@ export class AuthService {
         const { password, ...result } = user;
         return result;
     }
+
+    async findAllUsers() {
+        return this.prisma.user.findMany({
+            select: {
+                id: true,
+                email: true,
+                first_name: true,
+                last_name: true,
+                address: true,
+                rt: true,
+                rw: true,
+                zip_code: true,
+                role: true,
+                created_at: true,
+                updated_at: true,
+            },
+        });
+    }
 }

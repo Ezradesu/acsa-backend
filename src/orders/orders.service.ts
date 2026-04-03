@@ -6,10 +6,14 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderStatusDto } from './dto/update-order.dto';
+import { MidtransService } from '../midtrans/midtrans.service';
 
 @Injectable()
 export class OrdersService {
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private midtransService: MidtransService,
+    ) { }
 
     async findAll(userId: string, role: string) {
         const where = role === 'admin' ? {} : { id_user: userId };
@@ -78,8 +82,8 @@ export class OrdersService {
         }, 0);
 
         // Buat order + kurangi stok dalam satu transaction
-        return this.prisma.$transaction(async (tx) => {
-            const order = await tx.order.create({
+        const order = await this.prisma.$transaction(async (tx) => {
+            const newOrder = await tx.order.create({
                 data: {
                     id_user: userId,
                     total,
@@ -113,7 +117,98 @@ export class OrdersService {
                 ),
             );
 
+            return newOrder;
+        });
+
+        // Ambil data user untuk payload Midtrans
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+        });
+
+        // Generate Midtrans Snap Token
+        try {
+            const snapTransaction = await this.midtransService.createSnapTransaction(
+                order,
+                user,
+            );
+
+            // Update order dengan token
+            return this.prisma.order.update({
+                where: { id: order.id },
+                data: {
+                    snap_token: snapTransaction.token,
+                    snap_redirect: snapTransaction.redirect_url,
+                },
+                include: {
+                    items: {
+                        include: { product: true },
+                    },
+                },
+            });
+        } catch (error) {
+            // Tetap return order meskipun Midtrans gagal (user bisa coba lagi nanti)
             return order;
+        }
+    }
+
+    async handleWebhook(notification: any) {
+        const isValid = this.midtransService.verifySignatureKey(notification);
+        if (!isValid) {
+            throw new BadRequestException('Invalid signature key');
+        }
+
+        const { order_id, transaction_status, fraud_status } = notification;
+
+        let status = 'pending';
+
+        if (transaction_status === 'capture') {
+            if (fraud_status === 'challenge') {
+                status = 'challenge';
+            } else if (fraud_status === 'accept') {
+                status = 'settlement';
+            }
+        } else if (transaction_status === 'settlement') {
+            status = 'settlement';
+        } else if (
+            transaction_status === 'cancel' ||
+            transaction_status === 'deny' ||
+            transaction_status === 'expire'
+        ) {
+            status = 'failure';
+        } else if (transaction_status === 'pending') {
+            status = 'pending';
+        }
+
+        // Jika status failure, kembalikan stok
+        if (status === 'failure') {
+            const order = await this.prisma.order.findUnique({
+                where: { id: order_id },
+                include: { items: true },
+            });
+
+            if (order && order.status !== 'failure') {
+                await this.prisma.$transaction(async (tx) => {
+                    await Promise.all(
+                        order.items.map((item) =>
+                            tx.product.update({
+                                where: { id: item.id_product },
+                                data: { quantity: { increment: item.quantity } },
+                            }),
+                        ),
+                    );
+
+                    await tx.order.update({
+                        where: { id: order_id },
+                        data: { status },
+                    });
+                });
+                return { status: 'ok' };
+            }
+        }
+
+        return this.prisma.order.update({
+            where: { id: order_id },
+            data: { status },
         });
     }
 

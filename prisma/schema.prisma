@@ -68,14 +68,16 @@ model WishlistItem {
 }
 
 model Order {
-  id         String       @id @default(uuid())
-  id_user    String
-  total      Decimal
-  status     String       @default("pending")
-  created_at DateTime     @default(now())
-  updated_at DateTime     @updatedAt
-  user       User         @relation(fields: [id_user], references: [id])
-  items      OrderItems[]
+  id            String       @id @default(uuid())
+  id_user       String
+  total         Decimal
+  status        String       @default("pending")
+  snap_token    String?      // Token dari Midtrans
+  snap_redirect String?      // URL redirect dari Midtrans
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  user          User         @relation(fields: [id_user], references: [id])
+  items         OrderItems[]
 }
 
 model OrderItems {

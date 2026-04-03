@@ -4,6 +4,8 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtGuard } from './guards/jwt.guard';
 import { GetUser } from './decorators/get-user.decorator';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from './decorators/roles.decorators';
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +25,12 @@ export class AuthController {
     @Get('me')
     me(@GetUser('id') userId: string) {
         return this.authService.me(userId);
+    }
+
+    @UseGuards(JwtGuard, RolesGuard)
+    @Roles('admin')
+    @Get('users')
+    findAllUsers() {
+        return this.authService.findAllUsers();
     }
 }
