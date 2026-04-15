@@ -138,6 +138,7 @@ model Product {
   pk          String?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+  is_deleted  Boolean  @default(false)
   brand       Brand    @relation(fields: [id_brand], references: [id])
 
   categories       ProductCategory[]

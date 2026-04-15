@@ -24,6 +24,10 @@ export class ProductsService {
             where.categories = { some: { id_category } };
         }
 
+        if (!query.includeDeleted) {
+            where.is_deleted = false;
+        }
+
         const [data, total] = await Promise.all([
             this.prisma.product.findMany({
                 where,
@@ -63,7 +67,7 @@ export class ProductsService {
                 featuredProducts: true,
             },
         });
-        if (!product) throw new NotFoundException('Product not found');
+        if (!product || product.is_deleted) throw new NotFoundException('Product not found');
         return product;
     }
 
@@ -110,7 +114,10 @@ export class ProductsService {
 
     async remove(id: string) {
         await this.findOne(id);
-        return this.prisma.product.delete({ where: { id } });
+        return this.prisma.product.update({ 
+            where: { id },
+            data: { is_deleted: true }
+        });
     }
 
     async uploadImages(id: string, files: Express.Multer.File[]) {

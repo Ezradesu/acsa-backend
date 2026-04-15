@@ -226,7 +226,8 @@ export const ProductScalarFieldEnum = {
   quantity: 'quantity',
   pk: 'pk',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  is_deleted: 'is_deleted'
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]

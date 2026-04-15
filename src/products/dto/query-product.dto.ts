@@ -1,5 +1,5 @@
-import { IsOptional, IsString, IsNumber } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsOptional, IsString, IsNumber, IsBoolean } from 'class-validator';
+import { Type, Transform } from 'class-transformer';
 
 export class QueryProductDto {
     @IsOptional()
@@ -29,4 +29,9 @@ export class QueryProductDto {
     @IsNumber()
     @Type(() => Number)
     limit?: number = 10;
+
+    @IsOptional()
+    @Transform(({ value }) => value === 'true' || value === true)
+    @IsBoolean()
+    includeDeleted?: boolean;
 }
