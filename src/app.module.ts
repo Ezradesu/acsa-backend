@@ -22,6 +22,7 @@ import { ArticlesModule } from './articles/articles.module';
 import { CompanyModule } from './company/company.module';
 import { SocialMediaModule } from './social-media/social-media.module';
 import { StaffModule } from './staff/staff.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { StaffModule } from './staff/staff.module';
     CompanyModule,
     SocialMediaModule,
     StaffModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService, SupabaseService],
