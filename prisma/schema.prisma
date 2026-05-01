@@ -92,9 +92,10 @@ model OrderItems {
 }
 
 model Brand {
-  id        Int     @id @default(autoincrement())
-  name      String
-  image_url String?
+  id         Int     @id @default(autoincrement())
+  name       String
+  image_url  String?
+  is_deleted Boolean @default(false)
 
   products        Product[]
   sponsoredBrands SponsoredBrand[]
@@ -122,9 +123,10 @@ model Banner {
 }
 
 model Category {
-  id       Int               @id @default(autoincrement())
-  name     String            @unique
-  products ProductCategory[]
+  id         Int               @id @default(autoincrement())
+  name       String            @unique
+  is_deleted Boolean           @default(false)
+  products   ProductCategory[]
 }
 
 model Product {

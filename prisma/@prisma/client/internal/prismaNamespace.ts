@@ -2327,7 +2327,8 @@ export type OrderItemsScalarFieldEnum = (typeof OrderItemsScalarFieldEnum)[keyof
 export const BrandScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  image_url: 'image_url'
+  image_url: 'image_url',
+  is_deleted: 'is_deleted'
 } as const
 
 export type BrandScalarFieldEnum = (typeof BrandScalarFieldEnum)[keyof typeof BrandScalarFieldEnum]
@@ -2359,7 +2360,8 @@ export type BannerScalarFieldEnum = (typeof BannerScalarFieldEnum)[keyof typeof 
 
 export const CategoryScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  is_deleted: 'is_deleted'
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]

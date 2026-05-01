@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe, UseGuards, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { QueryBrandDto } from './dto/query-brand.dto';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorators';
@@ -12,8 +13,8 @@ export class BrandsController {
     constructor(private brandsService: BrandsService) { }
 
     @Get()
-    findAll() {
-        return this.brandsService.findAll();
+    findAll(@Query() query: QueryBrandDto) {
+        return this.brandsService.findAll(query);
     }
 
     @Get(':id')

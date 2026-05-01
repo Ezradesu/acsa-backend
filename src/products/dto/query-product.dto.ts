@@ -34,4 +34,22 @@ export class QueryProductDto {
     @Transform(({ value }) => value === 'true' || value === true)
     @IsBoolean()
     includeDeleted?: boolean;
+
+    @IsOptional()
+    @IsNumber()
+    @Type(() => Number)
+    min_price?: number;
+
+    @IsOptional()
+    @IsNumber()
+    @Type(() => Number)
+    max_price?: number;
+
+    @IsOptional()
+    @IsString()
+    sortBy?: 'price' | 'date';
+
+    @IsOptional()
+    @IsString()
+    sortOrder?: 'asc' | 'desc';
 }

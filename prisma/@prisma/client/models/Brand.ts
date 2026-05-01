@@ -38,18 +38,21 @@ export type BrandMinAggregateOutputType = {
   id: number | null
   name: string | null
   image_url: string | null
+  is_deleted: boolean | null
 }
 
 export type BrandMaxAggregateOutputType = {
   id: number | null
   name: string | null
   image_url: string | null
+  is_deleted: boolean | null
 }
 
 export type BrandCountAggregateOutputType = {
   id: number
   name: number
   image_url: number
+  is_deleted: number
   _all: number
 }
 
@@ -66,18 +69,21 @@ export type BrandMinAggregateInputType = {
   id?: true
   name?: true
   image_url?: true
+  is_deleted?: true
 }
 
 export type BrandMaxAggregateInputType = {
   id?: true
   name?: true
   image_url?: true
+  is_deleted?: true
 }
 
 export type BrandCountAggregateInputType = {
   id?: true
   name?: true
   image_url?: true
+  is_deleted?: true
   _all?: true
 }
 
@@ -171,6 +177,7 @@ export type BrandGroupByOutputType = {
   id: number
   name: string
   image_url: string | null
+  is_deleted: boolean
   _count: BrandCountAggregateOutputType | null
   _avg: BrandAvgAggregateOutputType | null
   _sum: BrandSumAggregateOutputType | null
@@ -200,6 +207,7 @@ export type BrandWhereInput = {
   id?: Prisma.IntFilter<"Brand"> | number
   name?: Prisma.StringFilter<"Brand"> | string
   image_url?: Prisma.StringNullableFilter<"Brand"> | string | null
+  is_deleted?: Prisma.BoolFilter<"Brand"> | boolean
   products?: Prisma.ProductListRelationFilter
   sponsoredBrands?: Prisma.SponsoredBrandListRelationFilter
   banners?: Prisma.BannerListRelationFilter
@@ -209,6 +217,7 @@ export type BrandOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   image_url?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_deleted?: Prisma.SortOrder
   products?: Prisma.ProductOrderByRelationAggregateInput
   sponsoredBrands?: Prisma.SponsoredBrandOrderByRelationAggregateInput
   banners?: Prisma.BannerOrderByRelationAggregateInput
@@ -221,6 +230,7 @@ export type BrandWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BrandWhereInput | Prisma.BrandWhereInput[]
   name?: Prisma.StringFilter<"Brand"> | string
   image_url?: Prisma.StringNullableFilter<"Brand"> | string | null
+  is_deleted?: Prisma.BoolFilter<"Brand"> | boolean
   products?: Prisma.ProductListRelationFilter
   sponsoredBrands?: Prisma.SponsoredBrandListRelationFilter
   banners?: Prisma.BannerListRelationFilter
@@ -230,6 +240,7 @@ export type BrandOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   image_url?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_deleted?: Prisma.SortOrder
   _count?: Prisma.BrandCountOrderByAggregateInput
   _avg?: Prisma.BrandAvgOrderByAggregateInput
   _max?: Prisma.BrandMaxOrderByAggregateInput
@@ -244,11 +255,13 @@ export type BrandScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Brand"> | number
   name?: Prisma.StringWithAggregatesFilter<"Brand"> | string
   image_url?: Prisma.StringNullableWithAggregatesFilter<"Brand"> | string | null
+  is_deleted?: Prisma.BoolWithAggregatesFilter<"Brand"> | boolean
 }
 
 export type BrandCreateInput = {
   name: string
   image_url?: string | null
+  is_deleted?: boolean
   products?: Prisma.ProductCreateNestedManyWithoutBrandInput
   sponsoredBrands?: Prisma.SponsoredBrandCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerCreateNestedManyWithoutBrandInput
@@ -258,6 +271,7 @@ export type BrandUncheckedCreateInput = {
   id?: number
   name: string
   image_url?: string | null
+  is_deleted?: boolean
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutBrandInput
   sponsoredBrands?: Prisma.SponsoredBrandUncheckedCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerUncheckedCreateNestedManyWithoutBrandInput
@@ -266,6 +280,7 @@ export type BrandUncheckedCreateInput = {
 export type BrandUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   products?: Prisma.ProductUpdateManyWithoutBrandNestedInput
   sponsoredBrands?: Prisma.SponsoredBrandUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUpdateManyWithoutBrandNestedInput
@@ -275,6 +290,7 @@ export type BrandUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   products?: Prisma.ProductUncheckedUpdateManyWithoutBrandNestedInput
   sponsoredBrands?: Prisma.SponsoredBrandUncheckedUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUncheckedUpdateManyWithoutBrandNestedInput
@@ -284,23 +300,27 @@ export type BrandCreateManyInput = {
   id?: number
   name: string
   image_url?: string | null
+  is_deleted?: boolean
 }
 
 export type BrandUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type BrandUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type BrandCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   image_url?: Prisma.SortOrder
+  is_deleted?: Prisma.SortOrder
 }
 
 export type BrandAvgOrderByAggregateInput = {
@@ -311,12 +331,14 @@ export type BrandMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   image_url?: Prisma.SortOrder
+  is_deleted?: Prisma.SortOrder
 }
 
 export type BrandMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   image_url?: Prisma.SortOrder
+  is_deleted?: Prisma.SortOrder
 }
 
 export type BrandSumOrderByAggregateInput = {
@@ -326,6 +348,10 @@ export type BrandSumOrderByAggregateInput = {
 export type BrandScalarRelationFilter = {
   is?: Prisma.BrandWhereInput
   isNot?: Prisma.BrandWhereInput
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type BrandCreateNestedOneWithoutSponsoredBrandsInput = {
@@ -373,6 +399,7 @@ export type BrandUpdateOneRequiredWithoutProductsNestedInput = {
 export type BrandCreateWithoutSponsoredBrandsInput = {
   name: string
   image_url?: string | null
+  is_deleted?: boolean
   products?: Prisma.ProductCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerCreateNestedManyWithoutBrandInput
 }
@@ -381,6 +408,7 @@ export type BrandUncheckedCreateWithoutSponsoredBrandsInput = {
   id?: number
   name: string
   image_url?: string | null
+  is_deleted?: boolean
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerUncheckedCreateNestedManyWithoutBrandInput
 }
@@ -404,6 +432,7 @@ export type BrandUpdateToOneWithWhereWithoutSponsoredBrandsInput = {
 export type BrandUpdateWithoutSponsoredBrandsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   products?: Prisma.ProductUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUpdateManyWithoutBrandNestedInput
 }
@@ -412,6 +441,7 @@ export type BrandUncheckedUpdateWithoutSponsoredBrandsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   products?: Prisma.ProductUncheckedUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUncheckedUpdateManyWithoutBrandNestedInput
 }
@@ -419,6 +449,7 @@ export type BrandUncheckedUpdateWithoutSponsoredBrandsInput = {
 export type BrandCreateWithoutBannersInput = {
   name: string
   image_url?: string | null
+  is_deleted?: boolean
   products?: Prisma.ProductCreateNestedManyWithoutBrandInput
   sponsoredBrands?: Prisma.SponsoredBrandCreateNestedManyWithoutBrandInput
 }
@@ -427,6 +458,7 @@ export type BrandUncheckedCreateWithoutBannersInput = {
   id?: number
   name: string
   image_url?: string | null
+  is_deleted?: boolean
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutBrandInput
   sponsoredBrands?: Prisma.SponsoredBrandUncheckedCreateNestedManyWithoutBrandInput
 }
@@ -450,6 +482,7 @@ export type BrandUpdateToOneWithWhereWithoutBannersInput = {
 export type BrandUpdateWithoutBannersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   products?: Prisma.ProductUpdateManyWithoutBrandNestedInput
   sponsoredBrands?: Prisma.SponsoredBrandUpdateManyWithoutBrandNestedInput
 }
@@ -458,6 +491,7 @@ export type BrandUncheckedUpdateWithoutBannersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   products?: Prisma.ProductUncheckedUpdateManyWithoutBrandNestedInput
   sponsoredBrands?: Prisma.SponsoredBrandUncheckedUpdateManyWithoutBrandNestedInput
 }
@@ -465,6 +499,7 @@ export type BrandUncheckedUpdateWithoutBannersInput = {
 export type BrandCreateWithoutProductsInput = {
   name: string
   image_url?: string | null
+  is_deleted?: boolean
   sponsoredBrands?: Prisma.SponsoredBrandCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerCreateNestedManyWithoutBrandInput
 }
@@ -473,6 +508,7 @@ export type BrandUncheckedCreateWithoutProductsInput = {
   id?: number
   name: string
   image_url?: string | null
+  is_deleted?: boolean
   sponsoredBrands?: Prisma.SponsoredBrandUncheckedCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerUncheckedCreateNestedManyWithoutBrandInput
 }
@@ -496,6 +532,7 @@ export type BrandUpdateToOneWithWhereWithoutProductsInput = {
 export type BrandUpdateWithoutProductsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sponsoredBrands?: Prisma.SponsoredBrandUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUpdateManyWithoutBrandNestedInput
 }
@@ -504,6 +541,7 @@ export type BrandUncheckedUpdateWithoutProductsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sponsoredBrands?: Prisma.SponsoredBrandUncheckedUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUncheckedUpdateManyWithoutBrandNestedInput
 }
@@ -561,6 +599,7 @@ export type BrandSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   name?: boolean
   image_url?: boolean
+  is_deleted?: boolean
   products?: boolean | Prisma.Brand$productsArgs<ExtArgs>
   sponsoredBrands?: boolean | Prisma.Brand$sponsoredBrandsArgs<ExtArgs>
   banners?: boolean | Prisma.Brand$bannersArgs<ExtArgs>
@@ -571,21 +610,24 @@ export type BrandSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   name?: boolean
   image_url?: boolean
+  is_deleted?: boolean
 }, ExtArgs["result"]["brand"]>
 
 export type BrandSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   image_url?: boolean
+  is_deleted?: boolean
 }, ExtArgs["result"]["brand"]>
 
 export type BrandSelectScalar = {
   id?: boolean
   name?: boolean
   image_url?: boolean
+  is_deleted?: boolean
 }
 
-export type BrandOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "image_url", ExtArgs["result"]["brand"]>
+export type BrandOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "image_url" | "is_deleted", ExtArgs["result"]["brand"]>
 export type BrandInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   products?: boolean | Prisma.Brand$productsArgs<ExtArgs>
   sponsoredBrands?: boolean | Prisma.Brand$sponsoredBrandsArgs<ExtArgs>
@@ -606,6 +648,7 @@ export type $BrandPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: number
     name: string
     image_url: string | null
+    is_deleted: boolean
   }, ExtArgs["result"]["brand"]>
   composites: {}
 }
@@ -1035,6 +1078,7 @@ export interface BrandFieldRefs {
   readonly id: Prisma.FieldRef<"Brand", 'Int'>
   readonly name: Prisma.FieldRef<"Brand", 'String'>
   readonly image_url: Prisma.FieldRef<"Brand", 'String'>
+  readonly is_deleted: Prisma.FieldRef<"Brand", 'Boolean'>
 }
     
 

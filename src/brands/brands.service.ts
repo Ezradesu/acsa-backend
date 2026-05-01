@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { QueryBrandDto } from './dto/query-brand.dto';
 import { SupabaseService } from '../supabase/supabase.service';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -13,15 +14,26 @@ export class BrandsService {
         private supabase: SupabaseService,
     ) { }
 
-    async findAll() {
+    async findAll(query: QueryBrandDto = {}) {
+        const where: any = {};
+
+        if (query.search) {
+            where.name = { contains: query.search, mode: 'insensitive' };
+        }
+
+        if (!query.includeDeleted) {
+            where.is_deleted = false;
+        }
+
         return this.prisma.brand.findMany({
+            where,
             include: { _count: { select: { products: true } } },
         });
     }
 
     async findOne(id: number) {
         const brand = await this.prisma.brand.findUnique({ where: { id } });
-        if (!brand) throw new NotFoundException('Brand not found');
+        if (!brand || brand.is_deleted) throw new NotFoundException('Brand not found');
         return brand;
     }
 
@@ -36,7 +48,10 @@ export class BrandsService {
 
     async remove(id: number) {
         await this.findOne(id);
-        return this.prisma.brand.delete({ where: { id } });
+        return this.prisma.brand.update({
+            where: { id },
+            data: { is_deleted: true },
+        });
     }
 
     async uploadImage(id: number, file: Express.Multer.File) {

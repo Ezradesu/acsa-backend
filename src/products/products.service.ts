@@ -13,7 +13,7 @@ export class ProductsService {
     ) { }
 
     async findAll(query: QueryProductDto) {
-        const { search, id_brand, id_category, type, page = 1, limit = 10 } = query;
+        const { search, id_brand, id_category, type, page = 1, limit = 10, min_price, max_price, sortBy, sortOrder } = query;
         const skip = (page - 1) * limit;
 
         const where: any = {};
@@ -24,8 +24,23 @@ export class ProductsService {
             where.categories = { some: { id_category } };
         }
 
+        if (min_price || max_price) {
+            where.price = {};
+            if (min_price) where.price.gte = min_price;
+            if (max_price) where.price.lte = max_price;
+        }
+
         if (!query.includeDeleted) {
             where.is_deleted = false;
+        }
+
+        let orderBy: any = { created_at: 'desc' };
+        if (sortBy === 'price') {
+            orderBy = { price: sortOrder || 'asc' };
+        } else if (sortBy === 'date') {
+            orderBy = { created_at: sortOrder || 'desc' };
+        } else if (sortOrder) {
+            orderBy = { created_at: sortOrder };
         }
 
         const [data, total] = await Promise.all([
@@ -39,7 +54,7 @@ export class ProductsService {
                     categories: { include: { category: true } },
                     discounts: true,
                 },
-                orderBy: { created_at: 'desc' },
+                orderBy,
             }),
             this.prisma.product.count({ where }),
         ]);
