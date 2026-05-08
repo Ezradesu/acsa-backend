@@ -20,8 +20,8 @@ export class ProductsService {
         if (search) where.name = { contains: search, mode: 'insensitive' };
         if (id_brand) where.id_brand = id_brand;
         if (type) where.type = type;
-        if (id_category) {
-            where.categories = { some: { id_category } };
+        if (id_category && id_category.length > 0) {
+            where.categories = { some: { id_category: { in: id_category } } };
         }
 
         if (min_price || max_price) {

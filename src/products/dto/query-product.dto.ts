@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsNumber, IsBoolean } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsBoolean, IsArray } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 
 export class QueryProductDto {
@@ -12,9 +12,15 @@ export class QueryProductDto {
     id_brand?: number;
 
     @IsOptional()
-    @IsNumber()
-    @Type(() => Number)
-    id_category?: number;
+    @Transform(({ value }) => {
+        if (!Array.isArray(value)) {
+            return [Number(value)];
+        }
+        return value.map(Number);
+    })
+    @IsArray()
+    @IsNumber({}, { each: true })
+    id_category?: number[];
 
     @IsOptional()
     @IsString()
