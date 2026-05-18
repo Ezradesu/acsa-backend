@@ -17,6 +17,7 @@ async function bootstrap() {
     'http://127.0.0.1:5500', // Live Server (IP form)
     'https://ac-sejuk-abadi-frontend.vercel.app',
     'https://acsejukabadi.com/',
+    'https://acsa-frontend.vercel.app',
   ].filter(Boolean) as string[];
 
   app.enableCors({
