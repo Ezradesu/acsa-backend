@@ -16,7 +16,7 @@ async function bootstrap() {
     'http://localhost:5500', // Live Server / npx serve
     'http://127.0.0.1:5500', // Live Server (IP form)
     'https://ac-sejuk-abadi-frontend.vercel.app',
-    'https://acsejukabadi.com/',
+    'https://acsejukabadi.com',
     'https://acsa-frontend.vercel.app',
   ].filter(Boolean) as string[];
 
