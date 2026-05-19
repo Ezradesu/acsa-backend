@@ -238,9 +238,9 @@ export type UserWhereInput = {
   role?: Prisma.StringFilter<"User"> | string
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"User"> | Date | string
+  carts?: Prisma.CartListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
-  carts?: Prisma.CartListRelationFilter
   wishlists?: Prisma.WishlistListRelationFilter
 }
 
@@ -257,9 +257,9 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  carts?: Prisma.CartOrderByRelationAggregateInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
-  carts?: Prisma.CartOrderByRelationAggregateInput
   wishlists?: Prisma.WishlistOrderByRelationAggregateInput
 }
 
@@ -279,9 +279,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.StringFilter<"User"> | string
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"User"> | Date | string
+  carts?: Prisma.CartListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
-  carts?: Prisma.CartListRelationFilter
   wishlists?: Prisma.WishlistListRelationFilter
 }, "id" | "email">
 
@@ -334,9 +334,9 @@ export type UserCreateInput = {
   role?: string
   created_at?: Date | string
   updated_at?: Date | string
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
 }
 
@@ -353,9 +353,9 @@ export type UserUncheckedCreateInput = {
   role?: string
   created_at?: Date | string
   updated_at?: Date | string
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -372,9 +372,9 @@ export type UserUpdateInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
 }
 
@@ -391,9 +391,9 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -661,9 +661,9 @@ export type UserCreateWithoutWishlistsInput = {
   role?: string
   created_at?: Date | string
   updated_at?: Date | string
+  carts?: Prisma.CartCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
-  carts?: Prisma.CartCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWishlistsInput = {
@@ -679,9 +679,9 @@ export type UserUncheckedCreateWithoutWishlistsInput = {
   role?: string
   created_at?: Date | string
   updated_at?: Date | string
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
-  carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWishlistsInput = {
@@ -713,9 +713,9 @@ export type UserUpdateWithoutWishlistsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
-  carts?: Prisma.CartUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWishlistsInput = {
@@ -731,9 +731,9 @@ export type UserUncheckedUpdateWithoutWishlistsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
-  carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOrdersInput = {
@@ -749,8 +749,8 @@ export type UserCreateWithoutOrdersInput = {
   role?: string
   created_at?: Date | string
   updated_at?: Date | string
-  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
 }
 
@@ -767,8 +767,8 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   role?: string
   created_at?: Date | string
   updated_at?: Date | string
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -801,8 +801,8 @@ export type UserUpdateWithoutOrdersInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
 }
 
@@ -819,8 +819,8 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -837,8 +837,8 @@ export type UserCreateWithoutReviewsInput = {
   role?: string
   created_at?: Date | string
   updated_at?: Date | string
-  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistCreateNestedManyWithoutUserInput
 }
 
@@ -855,8 +855,8 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   role?: string
   created_at?: Date | string
   updated_at?: Date | string
-  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   wishlists?: Prisma.WishlistUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -889,8 +889,8 @@ export type UserUpdateWithoutReviewsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUpdateManyWithoutUserNestedInput
 }
 
@@ -907,8 +907,8 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   wishlists?: Prisma.WishlistUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -918,16 +918,16 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
  */
 
 export type UserCountOutputType = {
+  carts: number
   orders: number
   reviews: number
-  carts: number
   wishlists: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  carts?: boolean | UserCountOutputTypeCountCartsArgs
   orders?: boolean | UserCountOutputTypeCountOrdersArgs
   reviews?: boolean | UserCountOutputTypeCountReviewsArgs
-  carts?: boolean | UserCountOutputTypeCountCartsArgs
   wishlists?: boolean | UserCountOutputTypeCountWishlistsArgs
 }
 
@@ -944,6 +944,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountCartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CartWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.OrderWhereInput
 }
@@ -953,13 +960,6 @@ export type UserCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Ext
  */
 export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReviewWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CartWhereInput
 }
 
 /**
@@ -983,9 +983,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   created_at?: boolean
   updated_at?: boolean
+  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
-  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   wishlists?: boolean | Prisma.User$wishlistsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1037,9 +1037,9 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "first_name" | "last_name" | "address" | "rt" | "rw" | "zip_code" | "email" | "password" | "role" | "created_at" | "updated_at", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
-  carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   wishlists?: boolean | Prisma.User$wishlistsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1049,9 +1049,9 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    carts: Prisma.$CartPayload<ExtArgs>[]
     orders: Prisma.$OrderPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
-    carts: Prisma.$CartPayload<ExtArgs>[]
     wishlists: Prisma.$WishlistPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1461,9 +1461,9 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  carts<T extends Prisma.User$cartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orders<T extends Prisma.User$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.User$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  carts<T extends Prisma.User$cartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wishlists<T extends Prisma.User$wishlistsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wishlistsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1899,6 +1899,30 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * User.carts
+ */
+export type User$cartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Cart
+   */
+  select?: Prisma.CartSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Cart
+   */
+  omit?: Prisma.CartOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CartInclude<ExtArgs> | null
+  where?: Prisma.CartWhereInput
+  orderBy?: Prisma.CartOrderByWithRelationInput | Prisma.CartOrderByWithRelationInput[]
+  cursor?: Prisma.CartWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CartScalarFieldEnum | Prisma.CartScalarFieldEnum[]
+}
+
+/**
  * User.orders
  */
 export type User$ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1944,30 +1968,6 @@ export type User$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
-}
-
-/**
- * User.carts
- */
-export type User$cartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Cart
-   */
-  select?: Prisma.CartSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Cart
-   */
-  omit?: Prisma.CartOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CartInclude<ExtArgs> | null
-  where?: Prisma.CartWhereInput
-  orderBy?: Prisma.CartOrderByWithRelationInput | Prisma.CartOrderByWithRelationInput[]
-  cursor?: Prisma.CartWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CartScalarFieldEnum | Prisma.CartScalarFieldEnum[]
 }
 
 /**

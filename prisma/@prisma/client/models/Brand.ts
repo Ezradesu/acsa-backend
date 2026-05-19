@@ -208,9 +208,9 @@ export type BrandWhereInput = {
   name?: Prisma.StringFilter<"Brand"> | string
   image_url?: Prisma.StringNullableFilter<"Brand"> | string | null
   is_deleted?: Prisma.BoolFilter<"Brand"> | boolean
+  banners?: Prisma.BannerListRelationFilter
   products?: Prisma.ProductListRelationFilter
   sponsoredBrands?: Prisma.SponsoredBrandListRelationFilter
-  banners?: Prisma.BannerListRelationFilter
 }
 
 export type BrandOrderByWithRelationInput = {
@@ -218,9 +218,9 @@ export type BrandOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   image_url?: Prisma.SortOrderInput | Prisma.SortOrder
   is_deleted?: Prisma.SortOrder
+  banners?: Prisma.BannerOrderByRelationAggregateInput
   products?: Prisma.ProductOrderByRelationAggregateInput
   sponsoredBrands?: Prisma.SponsoredBrandOrderByRelationAggregateInput
-  banners?: Prisma.BannerOrderByRelationAggregateInput
 }
 
 export type BrandWhereUniqueInput = Prisma.AtLeast<{
@@ -231,9 +231,9 @@ export type BrandWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Brand"> | string
   image_url?: Prisma.StringNullableFilter<"Brand"> | string | null
   is_deleted?: Prisma.BoolFilter<"Brand"> | boolean
+  banners?: Prisma.BannerListRelationFilter
   products?: Prisma.ProductListRelationFilter
   sponsoredBrands?: Prisma.SponsoredBrandListRelationFilter
-  banners?: Prisma.BannerListRelationFilter
 }, "id">
 
 export type BrandOrderByWithAggregationInput = {
@@ -262,9 +262,9 @@ export type BrandCreateInput = {
   name: string
   image_url?: string | null
   is_deleted?: boolean
+  banners?: Prisma.BannerCreateNestedManyWithoutBrandInput
   products?: Prisma.ProductCreateNestedManyWithoutBrandInput
   sponsoredBrands?: Prisma.SponsoredBrandCreateNestedManyWithoutBrandInput
-  banners?: Prisma.BannerCreateNestedManyWithoutBrandInput
 }
 
 export type BrandUncheckedCreateInput = {
@@ -272,18 +272,18 @@ export type BrandUncheckedCreateInput = {
   name: string
   image_url?: string | null
   is_deleted?: boolean
+  banners?: Prisma.BannerUncheckedCreateNestedManyWithoutBrandInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutBrandInput
   sponsoredBrands?: Prisma.SponsoredBrandUncheckedCreateNestedManyWithoutBrandInput
-  banners?: Prisma.BannerUncheckedCreateNestedManyWithoutBrandInput
 }
 
 export type BrandUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banners?: Prisma.BannerUpdateManyWithoutBrandNestedInput
   products?: Prisma.ProductUpdateManyWithoutBrandNestedInput
   sponsoredBrands?: Prisma.SponsoredBrandUpdateManyWithoutBrandNestedInput
-  banners?: Prisma.BannerUpdateManyWithoutBrandNestedInput
 }
 
 export type BrandUncheckedUpdateInput = {
@@ -291,9 +291,9 @@ export type BrandUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banners?: Prisma.BannerUncheckedUpdateManyWithoutBrandNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutBrandNestedInput
   sponsoredBrands?: Prisma.SponsoredBrandUncheckedUpdateManyWithoutBrandNestedInput
-  banners?: Prisma.BannerUncheckedUpdateManyWithoutBrandNestedInput
 }
 
 export type BrandCreateManyInput = {
@@ -400,8 +400,8 @@ export type BrandCreateWithoutSponsoredBrandsInput = {
   name: string
   image_url?: string | null
   is_deleted?: boolean
-  products?: Prisma.ProductCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerCreateNestedManyWithoutBrandInput
+  products?: Prisma.ProductCreateNestedManyWithoutBrandInput
 }
 
 export type BrandUncheckedCreateWithoutSponsoredBrandsInput = {
@@ -409,8 +409,8 @@ export type BrandUncheckedCreateWithoutSponsoredBrandsInput = {
   name: string
   image_url?: string | null
   is_deleted?: boolean
-  products?: Prisma.ProductUncheckedCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerUncheckedCreateNestedManyWithoutBrandInput
+  products?: Prisma.ProductUncheckedCreateNestedManyWithoutBrandInput
 }
 
 export type BrandCreateOrConnectWithoutSponsoredBrandsInput = {
@@ -433,8 +433,8 @@ export type BrandUpdateWithoutSponsoredBrandsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  products?: Prisma.ProductUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUpdateManyWithoutBrandNestedInput
+  products?: Prisma.ProductUpdateManyWithoutBrandNestedInput
 }
 
 export type BrandUncheckedUpdateWithoutSponsoredBrandsInput = {
@@ -442,8 +442,8 @@ export type BrandUncheckedUpdateWithoutSponsoredBrandsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  products?: Prisma.ProductUncheckedUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUncheckedUpdateManyWithoutBrandNestedInput
+  products?: Prisma.ProductUncheckedUpdateManyWithoutBrandNestedInput
 }
 
 export type BrandCreateWithoutBannersInput = {
@@ -500,8 +500,8 @@ export type BrandCreateWithoutProductsInput = {
   name: string
   image_url?: string | null
   is_deleted?: boolean
-  sponsoredBrands?: Prisma.SponsoredBrandCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerCreateNestedManyWithoutBrandInput
+  sponsoredBrands?: Prisma.SponsoredBrandCreateNestedManyWithoutBrandInput
 }
 
 export type BrandUncheckedCreateWithoutProductsInput = {
@@ -509,8 +509,8 @@ export type BrandUncheckedCreateWithoutProductsInput = {
   name: string
   image_url?: string | null
   is_deleted?: boolean
-  sponsoredBrands?: Prisma.SponsoredBrandUncheckedCreateNestedManyWithoutBrandInput
   banners?: Prisma.BannerUncheckedCreateNestedManyWithoutBrandInput
+  sponsoredBrands?: Prisma.SponsoredBrandUncheckedCreateNestedManyWithoutBrandInput
 }
 
 export type BrandCreateOrConnectWithoutProductsInput = {
@@ -533,8 +533,8 @@ export type BrandUpdateWithoutProductsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  sponsoredBrands?: Prisma.SponsoredBrandUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUpdateManyWithoutBrandNestedInput
+  sponsoredBrands?: Prisma.SponsoredBrandUpdateManyWithoutBrandNestedInput
 }
 
 export type BrandUncheckedUpdateWithoutProductsInput = {
@@ -542,8 +542,8 @@ export type BrandUncheckedUpdateWithoutProductsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_deleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  sponsoredBrands?: Prisma.SponsoredBrandUncheckedUpdateManyWithoutBrandNestedInput
   banners?: Prisma.BannerUncheckedUpdateManyWithoutBrandNestedInput
+  sponsoredBrands?: Prisma.SponsoredBrandUncheckedUpdateManyWithoutBrandNestedInput
 }
 
 
@@ -552,15 +552,15 @@ export type BrandUncheckedUpdateWithoutProductsInput = {
  */
 
 export type BrandCountOutputType = {
+  banners: number
   products: number
   sponsoredBrands: number
-  banners: number
 }
 
 export type BrandCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  banners?: boolean | BrandCountOutputTypeCountBannersArgs
   products?: boolean | BrandCountOutputTypeCountProductsArgs
   sponsoredBrands?: boolean | BrandCountOutputTypeCountSponsoredBrandsArgs
-  banners?: boolean | BrandCountOutputTypeCountBannersArgs
 }
 
 /**
@@ -571,6 +571,13 @@ export type BrandCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
    * Select specific fields to fetch from the BrandCountOutputType
    */
   select?: Prisma.BrandCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * BrandCountOutputType without action
+ */
+export type BrandCountOutputTypeCountBannersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BannerWhereInput
 }
 
 /**
@@ -587,22 +594,15 @@ export type BrandCountOutputTypeCountSponsoredBrandsArgs<ExtArgs extends runtime
   where?: Prisma.SponsoredBrandWhereInput
 }
 
-/**
- * BrandCountOutputType without action
- */
-export type BrandCountOutputTypeCountBannersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BannerWhereInput
-}
-
 
 export type BrandSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   image_url?: boolean
   is_deleted?: boolean
+  banners?: boolean | Prisma.Brand$bannersArgs<ExtArgs>
   products?: boolean | Prisma.Brand$productsArgs<ExtArgs>
   sponsoredBrands?: boolean | Prisma.Brand$sponsoredBrandsArgs<ExtArgs>
-  banners?: boolean | Prisma.Brand$bannersArgs<ExtArgs>
   _count?: boolean | Prisma.BrandCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["brand"]>
 
@@ -629,9 +629,9 @@ export type BrandSelectScalar = {
 
 export type BrandOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "image_url" | "is_deleted", ExtArgs["result"]["brand"]>
 export type BrandInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  banners?: boolean | Prisma.Brand$bannersArgs<ExtArgs>
   products?: boolean | Prisma.Brand$productsArgs<ExtArgs>
   sponsoredBrands?: boolean | Prisma.Brand$sponsoredBrandsArgs<ExtArgs>
-  banners?: boolean | Prisma.Brand$bannersArgs<ExtArgs>
   _count?: boolean | Prisma.BrandCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BrandIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -640,9 +640,9 @@ export type BrandIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $BrandPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Brand"
   objects: {
+    banners: Prisma.$BannerPayload<ExtArgs>[]
     products: Prisma.$ProductPayload<ExtArgs>[]
     sponsoredBrands: Prisma.$SponsoredBrandPayload<ExtArgs>[]
-    banners: Prisma.$BannerPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1043,9 +1043,9 @@ readonly fields: BrandFieldRefs;
  */
 export interface Prisma__BrandClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  banners<T extends Prisma.Brand$bannersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Brand$bannersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BannerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   products<T extends Prisma.Brand$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Brand$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sponsoredBrands<T extends Prisma.Brand$sponsoredBrandsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Brand$sponsoredBrandsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SponsoredBrandPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  banners<T extends Prisma.Brand$bannersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Brand$bannersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BannerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1472,6 +1472,30 @@ export type BrandDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Brand.banners
+ */
+export type Brand$bannersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Banner
+   */
+  select?: Prisma.BannerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Banner
+   */
+  omit?: Prisma.BannerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BannerInclude<ExtArgs> | null
+  where?: Prisma.BannerWhereInput
+  orderBy?: Prisma.BannerOrderByWithRelationInput | Prisma.BannerOrderByWithRelationInput[]
+  cursor?: Prisma.BannerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BannerScalarFieldEnum | Prisma.BannerScalarFieldEnum[]
+}
+
+/**
  * Brand.products
  */
 export type Brand$productsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1517,30 +1541,6 @@ export type Brand$sponsoredBrandsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.SponsoredBrandScalarFieldEnum | Prisma.SponsoredBrandScalarFieldEnum[]
-}
-
-/**
- * Brand.banners
- */
-export type Brand$bannersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Banner
-   */
-  select?: Prisma.BannerSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Banner
-   */
-  omit?: Prisma.BannerOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BannerInclude<ExtArgs> | null
-  where?: Prisma.BannerWhereInput
-  orderBy?: Prisma.BannerOrderByWithRelationInput | Prisma.BannerOrderByWithRelationInput[]
-  cursor?: Prisma.BannerWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BannerScalarFieldEnum | Prisma.BannerScalarFieldEnum[]
 }
 
 /**

@@ -13,15 +13,15 @@ export class ProductsService {
     ) { }
 
     async findAll(query: QueryProductDto) {
-        const { search, id_brand, id_category, type, page = 1, limit = 10, min_price, max_price, sortBy, sortOrder } = query;
+        const { search, id_brand, id_category, id_ac_type, page = 1, limit = 10, min_price, max_price, sortBy, sortOrder } = query;
         const skip = (page - 1) * limit;
 
         const where: any = {};
         if (search) where.name = { contains: search, mode: 'insensitive' };
         if (id_brand) where.id_brand = id_brand;
-        if (type) where.type = type;
+        if (id_ac_type) where.id_ac_type = id_ac_type;
         if (id_category && id_category.length > 0) {
-            where.categories = { some: { id_category: { in: id_category } } };
+            where.id_category = { in: id_category };
         }
 
         if (min_price || max_price) {
@@ -51,7 +51,8 @@ export class ProductsService {
                 include: {
                     brand: true,
                     images: true,
-                    categories: { include: { category: true } },
+                    category: true,
+                    ac_type: true,
                     discounts: true,
                 },
                 orderBy,
@@ -76,7 +77,8 @@ export class ProductsService {
             include: {
                 brand: true,
                 images: true,
-                categories: { include: { category: true } },
+                category: true,
+                ac_type: true,
                 reviews: { include: { user: { select: { id: true, first_name: true, last_name: true } } } },
                 discounts: true,
                 featuredProducts: true,
@@ -87,42 +89,29 @@ export class ProductsService {
     }
 
     async create(dto: CreateProductDto) {
-        const { category_ids, ...data } = dto;
         return this.prisma.product.create({
             data: {
-                ...data,
-                price: data.price,
-                categories: category_ids
-                    ? {
-                        create: category_ids.map((id) => ({ id_category: id })),
-                    }
-                    : undefined,
+                ...dto,
+                price: dto.price,
             },
             include: {
                 brand: true,
-                categories: { include: { category: true } },
+                category: true,
+                ac_type: true,
             },
         });
     }
 
     async update(id: string, dto: UpdateProductDto) {
         await this.findOne(id);
-        const { category_ids, ...data } = dto;
 
         return this.prisma.product.update({
             where: { id },
-            data: {
-                ...data,
-                categories: category_ids
-                    ? {
-                        deleteMany: {},
-                        create: category_ids.map((catId) => ({ id_category: catId })),
-                    }
-                    : undefined,
-            },
+            data: dto,
             include: {
                 brand: true,
-                categories: { include: { category: true } },
+                category: true,
+                ac_type: true,
             },
         });
     }

@@ -62,8 +62,8 @@ export const ModelName = {
   SponsoredBrand: 'SponsoredBrand',
   Banner: 'Banner',
   Category: 'Category',
+  AcType: 'AcType',
   Product: 'Product',
-  ProductCategory: 'ProductCategory',
   ProductImages: 'ProductImages',
   Review: 'Review',
   Discount: 'Discount',
@@ -154,10 +154,10 @@ export const OrderScalarFieldEnum = {
   id_user: 'id_user',
   total: 'total',
   status: 'status',
-  snap_token: 'snap_token',
-  snap_redirect: 'snap_redirect',
   created_at: 'created_at',
-  updated_at: 'updated_at'
+  updated_at: 'updated_at',
+  snap_redirect: 'snap_redirect',
+  snap_token: 'snap_token'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -218,12 +218,21 @@ export const CategoryScalarFieldEnum = {
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
+export const AcTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type AcTypeScalarFieldEnum = (typeof AcTypeScalarFieldEnum)[keyof typeof AcTypeScalarFieldEnum]
+
+
 export const ProductScalarFieldEnum = {
   id: 'id',
   id_brand: 'id_brand',
+  id_category: 'id_category',
+  id_ac_type: 'id_ac_type',
   name: 'name',
   description: 'description',
-  type: 'type',
   price: 'price',
   quantity: 'quantity',
   pk: 'pk',
@@ -233,14 +242,6 @@ export const ProductScalarFieldEnum = {
 } as const
 
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
-
-
-export const ProductCategoryScalarFieldEnum = {
-  id_product: 'id_product',
-  id_category: 'id_category'
-} as const
-
-export type ProductCategoryScalarFieldEnum = (typeof ProductCategoryScalarFieldEnum)[keyof typeof ProductCategoryScalarFieldEnum]
 
 
 export const ProductImagesScalarFieldEnum = {

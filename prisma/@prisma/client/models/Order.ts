@@ -39,10 +39,10 @@ export type OrderMinAggregateOutputType = {
   id_user: string | null
   total: runtime.Decimal | null
   status: string | null
-  snap_token: string | null
-  snap_redirect: string | null
   created_at: Date | null
   updated_at: Date | null
+  snap_redirect: string | null
+  snap_token: string | null
 }
 
 export type OrderMaxAggregateOutputType = {
@@ -50,10 +50,10 @@ export type OrderMaxAggregateOutputType = {
   id_user: string | null
   total: runtime.Decimal | null
   status: string | null
-  snap_token: string | null
-  snap_redirect: string | null
   created_at: Date | null
   updated_at: Date | null
+  snap_redirect: string | null
+  snap_token: string | null
 }
 
 export type OrderCountAggregateOutputType = {
@@ -61,10 +61,10 @@ export type OrderCountAggregateOutputType = {
   id_user: number
   total: number
   status: number
-  snap_token: number
-  snap_redirect: number
   created_at: number
   updated_at: number
+  snap_redirect: number
+  snap_token: number
   _all: number
 }
 
@@ -82,10 +82,10 @@ export type OrderMinAggregateInputType = {
   id_user?: true
   total?: true
   status?: true
-  snap_token?: true
-  snap_redirect?: true
   created_at?: true
   updated_at?: true
+  snap_redirect?: true
+  snap_token?: true
 }
 
 export type OrderMaxAggregateInputType = {
@@ -93,10 +93,10 @@ export type OrderMaxAggregateInputType = {
   id_user?: true
   total?: true
   status?: true
-  snap_token?: true
-  snap_redirect?: true
   created_at?: true
   updated_at?: true
+  snap_redirect?: true
+  snap_token?: true
 }
 
 export type OrderCountAggregateInputType = {
@@ -104,10 +104,10 @@ export type OrderCountAggregateInputType = {
   id_user?: true
   total?: true
   status?: true
-  snap_token?: true
-  snap_redirect?: true
   created_at?: true
   updated_at?: true
+  snap_redirect?: true
+  snap_token?: true
   _all?: true
 }
 
@@ -202,10 +202,10 @@ export type OrderGroupByOutputType = {
   id_user: string
   total: runtime.Decimal
   status: string
-  snap_token: string | null
-  snap_redirect: string | null
   created_at: Date
   updated_at: Date
+  snap_redirect: string | null
+  snap_token: string | null
   _count: OrderCountAggregateOutputType | null
   _avg: OrderAvgAggregateOutputType | null
   _sum: OrderSumAggregateOutputType | null
@@ -236,10 +236,10 @@ export type OrderWhereInput = {
   id_user?: Prisma.StringFilter<"Order"> | string
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFilter<"Order"> | string
-  snap_token?: Prisma.StringNullableFilter<"Order"> | string | null
-  snap_redirect?: Prisma.StringNullableFilter<"Order"> | string | null
   created_at?: Prisma.DateTimeFilter<"Order"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Order"> | Date | string
+  snap_redirect?: Prisma.StringNullableFilter<"Order"> | string | null
+  snap_token?: Prisma.StringNullableFilter<"Order"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.OrderItemsListRelationFilter
 }
@@ -249,10 +249,10 @@ export type OrderOrderByWithRelationInput = {
   id_user?: Prisma.SortOrder
   total?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  snap_token?: Prisma.SortOrderInput | Prisma.SortOrder
-  snap_redirect?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  snap_redirect?: Prisma.SortOrderInput | Prisma.SortOrder
+  snap_token?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.OrderItemsOrderByRelationAggregateInput
 }
@@ -265,10 +265,10 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   id_user?: Prisma.StringFilter<"Order"> | string
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFilter<"Order"> | string
-  snap_token?: Prisma.StringNullableFilter<"Order"> | string | null
-  snap_redirect?: Prisma.StringNullableFilter<"Order"> | string | null
   created_at?: Prisma.DateTimeFilter<"Order"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Order"> | Date | string
+  snap_redirect?: Prisma.StringNullableFilter<"Order"> | string | null
+  snap_token?: Prisma.StringNullableFilter<"Order"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.OrderItemsListRelationFilter
 }, "id">
@@ -278,10 +278,10 @@ export type OrderOrderByWithAggregationInput = {
   id_user?: Prisma.SortOrder
   total?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  snap_token?: Prisma.SortOrderInput | Prisma.SortOrder
-  snap_redirect?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  snap_redirect?: Prisma.SortOrderInput | Prisma.SortOrder
+  snap_token?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.OrderCountOrderByAggregateInput
   _avg?: Prisma.OrderAvgOrderByAggregateInput
   _max?: Prisma.OrderMaxOrderByAggregateInput
@@ -297,20 +297,20 @@ export type OrderScalarWhereWithAggregatesInput = {
   id_user?: Prisma.StringWithAggregatesFilter<"Order"> | string
   total?: Prisma.DecimalWithAggregatesFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringWithAggregatesFilter<"Order"> | string
-  snap_token?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
-  snap_redirect?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
+  snap_redirect?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  snap_token?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
 }
 
 export type OrderCreateInput = {
   id?: string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: string
-  snap_token?: string | null
-  snap_redirect?: string | null
   created_at?: Date | string
   updated_at?: Date | string
+  snap_redirect?: string | null
+  snap_token?: string | null
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
   items?: Prisma.OrderItemsCreateNestedManyWithoutOrderInput
 }
@@ -320,10 +320,10 @@ export type OrderUncheckedCreateInput = {
   id_user: string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: string
-  snap_token?: string | null
-  snap_redirect?: string | null
   created_at?: Date | string
   updated_at?: Date | string
+  snap_redirect?: string | null
+  snap_token?: string | null
   items?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -331,10 +331,10 @@ export type OrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
   items?: Prisma.OrderItemsUpdateManyWithoutOrderNestedInput
 }
@@ -344,10 +344,10 @@ export type OrderUncheckedUpdateInput = {
   id_user?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.OrderItemsUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -356,20 +356,20 @@ export type OrderCreateManyInput = {
   id_user: string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: string
-  snap_token?: string | null
-  snap_redirect?: string | null
   created_at?: Date | string
   updated_at?: Date | string
+  snap_redirect?: string | null
+  snap_token?: string | null
 }
 
 export type OrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderUncheckedUpdateManyInput = {
@@ -377,10 +377,10 @@ export type OrderUncheckedUpdateManyInput = {
   id_user?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderListRelationFilter = {
@@ -398,10 +398,10 @@ export type OrderCountOrderByAggregateInput = {
   id_user?: Prisma.SortOrder
   total?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  snap_token?: Prisma.SortOrder
-  snap_redirect?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  snap_redirect?: Prisma.SortOrder
+  snap_token?: Prisma.SortOrder
 }
 
 export type OrderAvgOrderByAggregateInput = {
@@ -413,10 +413,10 @@ export type OrderMaxOrderByAggregateInput = {
   id_user?: Prisma.SortOrder
   total?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  snap_token?: Prisma.SortOrder
-  snap_redirect?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  snap_redirect?: Prisma.SortOrder
+  snap_token?: Prisma.SortOrder
 }
 
 export type OrderMinOrderByAggregateInput = {
@@ -424,10 +424,10 @@ export type OrderMinOrderByAggregateInput = {
   id_user?: Prisma.SortOrder
   total?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  snap_token?: Prisma.SortOrder
-  snap_redirect?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  snap_redirect?: Prisma.SortOrder
+  snap_token?: Prisma.SortOrder
 }
 
 export type OrderSumOrderByAggregateInput = {
@@ -507,10 +507,10 @@ export type OrderCreateWithoutUserInput = {
   id?: string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: string
-  snap_token?: string | null
-  snap_redirect?: string | null
   created_at?: Date | string
   updated_at?: Date | string
+  snap_redirect?: string | null
+  snap_token?: string | null
   items?: Prisma.OrderItemsCreateNestedManyWithoutOrderInput
 }
 
@@ -518,10 +518,10 @@ export type OrderUncheckedCreateWithoutUserInput = {
   id?: string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: string
-  snap_token?: string | null
-  snap_redirect?: string | null
   created_at?: Date | string
   updated_at?: Date | string
+  snap_redirect?: string | null
+  snap_token?: string | null
   items?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutOrderInput
 }
 
@@ -559,20 +559,20 @@ export type OrderScalarWhereInput = {
   id_user?: Prisma.StringFilter<"Order"> | string
   total?: Prisma.DecimalFilter<"Order"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFilter<"Order"> | string
-  snap_token?: Prisma.StringNullableFilter<"Order"> | string | null
-  snap_redirect?: Prisma.StringNullableFilter<"Order"> | string | null
   created_at?: Prisma.DateTimeFilter<"Order"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Order"> | Date | string
+  snap_redirect?: Prisma.StringNullableFilter<"Order"> | string | null
+  snap_token?: Prisma.StringNullableFilter<"Order"> | string | null
 }
 
 export type OrderCreateWithoutItemsInput = {
   id?: string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: string
-  snap_token?: string | null
-  snap_redirect?: string | null
   created_at?: Date | string
   updated_at?: Date | string
+  snap_redirect?: string | null
+  snap_token?: string | null
   user: Prisma.UserCreateNestedOneWithoutOrdersInput
 }
 
@@ -581,10 +581,10 @@ export type OrderUncheckedCreateWithoutItemsInput = {
   id_user: string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: string
-  snap_token?: string | null
-  snap_redirect?: string | null
   created_at?: Date | string
   updated_at?: Date | string
+  snap_redirect?: string | null
+  snap_token?: string | null
 }
 
 export type OrderCreateOrConnectWithoutItemsInput = {
@@ -607,10 +607,10 @@ export type OrderUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutOrdersNestedInput
 }
 
@@ -619,30 +619,30 @@ export type OrderUncheckedUpdateWithoutItemsInput = {
   id_user?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OrderCreateManyUserInput = {
   id?: string
   total: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: string
-  snap_token?: string | null
-  snap_redirect?: string | null
   created_at?: Date | string
   updated_at?: Date | string
+  snap_redirect?: string | null
+  snap_token?: string | null
 }
 
 export type OrderUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.OrderItemsUpdateManyWithoutOrderNestedInput
 }
 
@@ -650,10 +650,10 @@ export type OrderUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   items?: Prisma.OrderItemsUncheckedUpdateManyWithoutOrderNestedInput
 }
 
@@ -661,10 +661,10 @@ export type OrderUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   total?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  snap_redirect?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  snap_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -703,10 +703,10 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id_user?: boolean
   total?: boolean
   status?: boolean
-  snap_token?: boolean
-  snap_redirect?: boolean
   created_at?: boolean
   updated_at?: boolean
+  snap_redirect?: boolean
+  snap_token?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -717,10 +717,10 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id_user?: boolean
   total?: boolean
   status?: boolean
-  snap_token?: boolean
-  snap_redirect?: boolean
   created_at?: boolean
   updated_at?: boolean
+  snap_redirect?: boolean
+  snap_token?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
@@ -729,10 +729,10 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id_user?: boolean
   total?: boolean
   status?: boolean
-  snap_token?: boolean
-  snap_redirect?: boolean
   created_at?: boolean
   updated_at?: boolean
+  snap_redirect?: boolean
+  snap_token?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
@@ -741,13 +741,13 @@ export type OrderSelectScalar = {
   id_user?: boolean
   total?: boolean
   status?: boolean
-  snap_token?: boolean
-  snap_redirect?: boolean
   created_at?: boolean
   updated_at?: boolean
+  snap_redirect?: boolean
+  snap_token?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "id_user" | "total" | "status" | "snap_token" | "snap_redirect" | "created_at" | "updated_at", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "id_user" | "total" | "status" | "created_at" | "updated_at" | "snap_redirect" | "snap_token", ExtArgs["result"]["order"]>
 export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.Order$itemsArgs<ExtArgs>
@@ -771,10 +771,10 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id_user: string
     total: runtime.Decimal
     status: string
-    snap_token: string | null
-    snap_redirect: string | null
     created_at: Date
     updated_at: Date
+    snap_redirect: string | null
+    snap_token: string | null
   }, ExtArgs["result"]["order"]>
   composites: {}
 }
@@ -1204,10 +1204,10 @@ export interface OrderFieldRefs {
   readonly id_user: Prisma.FieldRef<"Order", 'String'>
   readonly total: Prisma.FieldRef<"Order", 'Decimal'>
   readonly status: Prisma.FieldRef<"Order", 'String'>
-  readonly snap_token: Prisma.FieldRef<"Order", 'String'>
-  readonly snap_redirect: Prisma.FieldRef<"Order", 'String'>
   readonly created_at: Prisma.FieldRef<"Order", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"Order", 'DateTime'>
+  readonly snap_redirect: Prisma.FieldRef<"Order", 'String'>
+  readonly snap_token: Prisma.FieldRef<"Order", 'String'>
 }
     
 

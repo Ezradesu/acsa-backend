@@ -14,9 +14,10 @@ export class CreateProductDto {
     @IsOptional()
     description?: string;
 
-    @IsString()
+    @IsNumber()
     @IsOptional()
-    type?: string;
+    @Type(() => Number)
+    id_ac_type?: number;
 
     @IsNumber()
     @Type(() => Number)
@@ -30,8 +31,8 @@ export class CreateProductDto {
     @IsOptional()
     pk?: string;
 
-    @IsArray()
+    @IsNumber()
     @IsOptional()
     @Type(() => Number)
-    category_ids?: number[];
+    id_category?: number;
 }

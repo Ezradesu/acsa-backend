@@ -23,8 +23,9 @@ export class QueryProductDto {
     id_category?: number[];
 
     @IsOptional()
-    @IsString()
-    type?: string;
+    @IsNumber()
+    @Type(() => Number)
+    id_ac_type?: number;
 
     @IsOptional()
     @IsNumber()

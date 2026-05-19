@@ -23,6 +23,7 @@ import { CompanyModule } from './company/company.module';
 import { SocialMediaModule } from './social-media/social-media.module';
 import { StaffModule } from './staff/staff.module';
 import { UsersModule } from './users/users.module';
+import { AcTypesModule } from './ac-types/ac-types.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { UsersModule } from './users/users.module';
     SocialMediaModule,
     StaffModule,
     UsersModule,
+    AcTypesModule,
   ],
   controllers: [AppController],
   providers: [AppService, SupabaseService],
