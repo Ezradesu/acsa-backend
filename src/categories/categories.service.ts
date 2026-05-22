@@ -19,9 +19,17 @@ export class CategoriesService {
             where.is_deleted = false;
         }
 
+        const productsCountWhere = query.includeDeleted ? {} : { is_deleted: false };
+
         return this.prisma.category.findMany({
             where,
-            include: { _count: { select: { products: true } } },
+            include: { 
+                _count: { 
+                    select: { 
+                        products: { where: productsCountWhere } 
+                    } 
+                } 
+            },
         });
     }
 

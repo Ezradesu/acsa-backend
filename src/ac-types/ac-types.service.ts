@@ -23,9 +23,17 @@ export class AcTypesService {
       where.name = { contains: query.search, mode: 'insensitive' };
     }
 
+    const productsCountWhere = query.includeDeleted ? {} : { is_deleted: false };
+
     return this.prisma.acType.findMany({
       where,
-      include: { _count: { select: { products: true } } },
+      include: { 
+        _count: { 
+          select: { 
+            products: { where: productsCountWhere } 
+          } 
+        } 
+      },
     });
   }
 
