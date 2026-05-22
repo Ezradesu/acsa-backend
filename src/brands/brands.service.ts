@@ -25,9 +25,17 @@ export class BrandsService {
             where.is_deleted = false;
         }
 
+        const productsCountWhere = query.includeDeleted ? {} : { is_deleted: false };
+
         return this.prisma.brand.findMany({
             where,
-            include: { _count: { select: { products: true } } },
+            include: { 
+                _count: { 
+                    select: { 
+                        products: { where: productsCountWhere } 
+                    } 
+                } 
+            },
         });
     }
 
