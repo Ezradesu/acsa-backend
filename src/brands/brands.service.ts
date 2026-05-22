@@ -21,7 +21,9 @@ export class BrandsService {
             where.name = { contains: query.search, mode: 'insensitive' };
         }
 
-        if (query.ids && query.ids.length > 0) {
+        if (query.id_brand) {
+            where.id = query.id_brand;
+        } else if (query.ids && query.ids.length > 0) {
             where.id = { in: query.ids };
         }
 

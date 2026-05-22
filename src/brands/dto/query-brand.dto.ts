@@ -1,5 +1,5 @@
-import { IsOptional, IsString, IsBoolean, IsArray, IsNumber } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsOptional, IsString, IsBoolean, IsArray, IsNumber, IsInt } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
 
 export class QueryBrandDto {
     @IsOptional()
@@ -19,6 +19,11 @@ export class QueryBrandDto {
     @IsArray()
     @IsNumber({}, { each: true })
     ids?: number[];
+
+    @IsOptional()
+    @Type(() => Number)
+    @IsInt()
+    id_brand?: number;
 
     @IsOptional()
     @Transform(({ value }) => value === 'true' || value === true)
