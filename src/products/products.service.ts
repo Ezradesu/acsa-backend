@@ -18,7 +18,9 @@ export class ProductsService {
 
         const where: any = {};
         if (search) where.name = { contains: search, mode: 'insensitive' };
-        if (id_brand) where.id_brand = id_brand;
+        if (id_brand && id_brand.length > 0) {
+            where.id_brand = { in: id_brand };
+        }
         if (id_ac_type) where.id_ac_type = id_ac_type;
         if (id_category && id_category.length > 0) {
             where.id_category = { in: id_category };

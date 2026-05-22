@@ -21,6 +21,10 @@ export class BrandsService {
             where.name = { contains: query.search, mode: 'insensitive' };
         }
 
+        if (query.ids && query.ids.length > 0) {
+            where.id = { in: query.ids };
+        }
+
         if (!query.includeDeleted) {
             where.is_deleted = false;
         }

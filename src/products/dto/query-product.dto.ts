@@ -7,9 +7,18 @@ export class QueryProductDto {
     search?: string;
 
     @IsOptional()
-    @IsNumber()
-    @Type(() => Number)
-    id_brand?: number;
+    @Transform(({ value }) => {
+        if (typeof value === 'string') {
+            return value.split(',').map(Number);
+        }
+        if (!Array.isArray(value)) {
+            return [Number(value)];
+        }
+        return value.map(Number);
+    })
+    @IsArray()
+    @IsNumber({}, { each: true })
+    id_brand?: number[];
 
     @IsOptional()
     @Transform(({ value }) => {
