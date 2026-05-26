@@ -69,6 +69,7 @@ export const ModelName = {
   Discount: 'Discount',
   FeaturedProduct: 'FeaturedProduct',
   Project: 'Project',
+  ProjectProduct: 'ProjectProduct',
   ProjectImages: 'ProjectImages',
   Article: 'Article',
   ArticleImages: 'ArticleImages',
@@ -289,7 +290,6 @@ export type FeaturedProductScalarFieldEnum = (typeof FeaturedProductScalarFieldE
 
 export const ProjectScalarFieldEnum = {
   id: 'id',
-  id_product: 'id_product',
   name: 'name',
   description: 'description',
   date: 'date',
@@ -298,6 +298,15 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const ProjectProductScalarFieldEnum = {
+  id: 'id',
+  id_project: 'id_project',
+  id_product: 'id_product'
+} as const
+
+export type ProjectProductScalarFieldEnum = (typeof ProjectProductScalarFieldEnum)[keyof typeof ProjectProductScalarFieldEnum]
 
 
 export const ProjectImagesScalarFieldEnum = {

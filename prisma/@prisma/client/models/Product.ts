@@ -296,7 +296,7 @@ export type ProductWhereInput = {
   category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   ac_type?: Prisma.XOR<Prisma.AcTypeNullableScalarRelationFilter, Prisma.AcTypeWhereInput> | null
   images?: Prisma.ProductImagesListRelationFilter
-  projects?: Prisma.ProjectListRelationFilter
+  projects?: Prisma.ProjectProductListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   wishlistItems?: Prisma.WishlistItemListRelationFilter
 }
@@ -322,7 +322,7 @@ export type ProductOrderByWithRelationInput = {
   category?: Prisma.CategoryOrderByWithRelationInput
   ac_type?: Prisma.AcTypeOrderByWithRelationInput
   images?: Prisma.ProductImagesOrderByRelationAggregateInput
-  projects?: Prisma.ProjectOrderByRelationAggregateInput
+  projects?: Prisma.ProjectProductOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   wishlistItems?: Prisma.WishlistItemOrderByRelationAggregateInput
 }
@@ -351,7 +351,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
   ac_type?: Prisma.XOR<Prisma.AcTypeNullableScalarRelationFilter, Prisma.AcTypeWhereInput> | null
   images?: Prisma.ProductImagesListRelationFilter
-  projects?: Prisma.ProjectListRelationFilter
+  projects?: Prisma.ProjectProductListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   wishlistItems?: Prisma.WishlistItemListRelationFilter
 }, "id">
@@ -412,7 +412,7 @@ export type ProductCreateInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -435,7 +435,7 @@ export type ProductUncheckedCreateInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -458,7 +458,7 @@ export type ProductUpdateInput = {
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -481,7 +481,7 @@ export type ProductUncheckedUpdateInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -867,7 +867,7 @@ export type ProductCreateWithoutCartItemsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -889,7 +889,7 @@ export type ProductUncheckedCreateWithoutCartItemsInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -927,7 +927,7 @@ export type ProductUpdateWithoutCartItemsInput = {
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -949,7 +949,7 @@ export type ProductUncheckedUpdateWithoutCartItemsInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -972,7 +972,7 @@ export type ProductCreateWithoutWishlistItemsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
 }
 
@@ -994,7 +994,7 @@ export type ProductUncheckedCreateWithoutWishlistItemsInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
 }
 
@@ -1032,7 +1032,7 @@ export type ProductUpdateWithoutWishlistItemsInput = {
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
 }
 
@@ -1054,7 +1054,7 @@ export type ProductUncheckedUpdateWithoutWishlistItemsInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
 }
 
@@ -1075,7 +1075,7 @@ export type ProductCreateWithoutOrderItemsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -1097,7 +1097,7 @@ export type ProductUncheckedCreateWithoutOrderItemsInput = {
   discounts?: Prisma.DiscountUncheckedCreateNestedManyWithoutProductInput
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -1135,7 +1135,7 @@ export type ProductUpdateWithoutOrderItemsInput = {
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -1157,7 +1157,7 @@ export type ProductUncheckedUpdateWithoutOrderItemsInput = {
   discounts?: Prisma.DiscountUncheckedUpdateManyWithoutProductNestedInput
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -1179,7 +1179,7 @@ export type ProductCreateWithoutBrandInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -1201,7 +1201,7 @@ export type ProductUncheckedCreateWithoutBrandInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -1267,7 +1267,7 @@ export type ProductCreateWithoutCategoryInput = {
   brand: Prisma.BrandCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -1289,7 +1289,7 @@ export type ProductUncheckedCreateWithoutCategoryInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -1337,7 +1337,7 @@ export type ProductCreateWithoutAc_typeInput = {
   brand: Prisma.BrandCreateNestedOneWithoutProductsInput
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -1359,7 +1359,7 @@ export type ProductUncheckedCreateWithoutAc_typeInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -1407,7 +1407,7 @@ export type ProductCreateWithoutImagesInput = {
   brand: Prisma.BrandCreateNestedOneWithoutProductsInput
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -1429,7 +1429,7 @@ export type ProductUncheckedCreateWithoutImagesInput = {
   discounts?: Prisma.DiscountUncheckedCreateNestedManyWithoutProductInput
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -1467,7 +1467,7 @@ export type ProductUpdateWithoutImagesInput = {
   brand?: Prisma.BrandUpdateOneRequiredWithoutProductsNestedInput
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -1489,7 +1489,7 @@ export type ProductUncheckedUpdateWithoutImagesInput = {
   discounts?: Prisma.DiscountUncheckedUpdateManyWithoutProductNestedInput
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -1512,7 +1512,7 @@ export type ProductCreateWithoutReviewsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
 
@@ -1534,7 +1534,7 @@ export type ProductUncheckedCreateWithoutReviewsInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
 
@@ -1572,7 +1572,7 @@ export type ProductUpdateWithoutReviewsInput = {
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
 
@@ -1594,7 +1594,7 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
 
@@ -1615,7 +1615,7 @@ export type ProductCreateWithoutDiscountsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -1637,7 +1637,7 @@ export type ProductUncheckedCreateWithoutDiscountsInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -1675,7 +1675,7 @@ export type ProductUpdateWithoutDiscountsInput = {
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -1697,7 +1697,7 @@ export type ProductUncheckedUpdateWithoutDiscountsInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -1719,7 +1719,7 @@ export type ProductCreateWithoutFeaturedProductsInput = {
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput
   ac_type?: Prisma.AcTypeCreateNestedOneWithoutProductsInput
   images?: Prisma.ProductImagesCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemCreateNestedManyWithoutProductInput
 }
@@ -1741,7 +1741,7 @@ export type ProductUncheckedCreateWithoutFeaturedProductsInput = {
   discounts?: Prisma.DiscountUncheckedCreateNestedManyWithoutProductInput
   orderItems?: Prisma.OrderItemsUncheckedCreateNestedManyWithoutProductInput
   images?: Prisma.ProductImagesUncheckedCreateNestedManyWithoutProductInput
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutProductInput
+  projects?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProductInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutProductInput
   wishlistItems?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutProductInput
 }
@@ -1779,7 +1779,7 @@ export type ProductUpdateWithoutFeaturedProductsInput = {
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -1801,7 +1801,7 @@ export type ProductUncheckedUpdateWithoutFeaturedProductsInput = {
   discounts?: Prisma.DiscountUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -1941,7 +1941,7 @@ export type ProductUpdateWithoutBrandInput = {
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -1963,7 +1963,7 @@ export type ProductUncheckedUpdateWithoutBrandInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -2013,7 +2013,7 @@ export type ProductUpdateWithoutCategoryInput = {
   brand?: Prisma.BrandUpdateOneRequiredWithoutProductsNestedInput
   ac_type?: Prisma.AcTypeUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -2035,7 +2035,7 @@ export type ProductUncheckedUpdateWithoutCategoryInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -2085,7 +2085,7 @@ export type ProductUpdateWithoutAc_typeInput = {
   brand?: Prisma.BrandUpdateOneRequiredWithoutProductsNestedInput
   category?: Prisma.CategoryUpdateOneWithoutProductsNestedInput
   images?: Prisma.ProductImagesUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUpdateManyWithoutProductNestedInput
 }
@@ -2107,7 +2107,7 @@ export type ProductUncheckedUpdateWithoutAc_typeInput = {
   featuredProducts?: Prisma.FeaturedProductUncheckedUpdateManyWithoutProductNestedInput
   orderItems?: Prisma.OrderItemsUncheckedUpdateManyWithoutProductNestedInput
   images?: Prisma.ProductImagesUncheckedUpdateManyWithoutProductNestedInput
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutProductNestedInput
+  projects?: Prisma.ProjectProductUncheckedUpdateManyWithoutProductNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutProductNestedInput
   wishlistItems?: Prisma.WishlistItemUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -2202,7 +2202,7 @@ export type ProductCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.
  * ProductCountOutputType without action
  */
 export type ProductCountOutputTypeCountProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProjectWhereInput
+  where?: Prisma.ProjectProductWhereInput
 }
 
 /**
@@ -2335,7 +2335,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     category: Prisma.$CategoryPayload<ExtArgs> | null
     ac_type: Prisma.$AcTypePayload<ExtArgs> | null
     images: Prisma.$ProductImagesPayload<ExtArgs>[]
-    projects: Prisma.$ProjectPayload<ExtArgs>[]
+    projects: Prisma.$ProjectProductPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     wishlistItems: Prisma.$WishlistItemPayload<ExtArgs>[]
   }
@@ -2754,7 +2754,7 @@ export interface Prisma__ProductClient<T, Null = never, ExtArgs extends runtime.
   category<T extends Prisma.Product$categoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$categoryArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ac_type<T extends Prisma.Product$ac_typeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$ac_typeArgs<ExtArgs>>): Prisma.Prisma__AcTypeClient<runtime.Types.Result.GetResult<Prisma.$AcTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   images<T extends Prisma.Product$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductImagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  projects<T extends Prisma.Product$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  projects<T extends Prisma.Product$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Product$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wishlistItems<T extends Prisma.Product$wishlistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Product$wishlistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -3361,23 +3361,23 @@ export type Product$imagesArgs<ExtArgs extends runtime.Types.Extensions.Internal
  */
 export type Product$projectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Project
+   * Select specific fields to fetch from the ProjectProduct
    */
-  select?: Prisma.ProjectSelect<ExtArgs> | null
+  select?: Prisma.ProjectProductSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Project
+   * Omit specific fields from the ProjectProduct
    */
-  omit?: Prisma.ProjectOmit<ExtArgs> | null
+  omit?: Prisma.ProjectProductOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ProjectInclude<ExtArgs> | null
-  where?: Prisma.ProjectWhereInput
-  orderBy?: Prisma.ProjectOrderByWithRelationInput | Prisma.ProjectOrderByWithRelationInput[]
-  cursor?: Prisma.ProjectWhereUniqueInput
+  include?: Prisma.ProjectProductInclude<ExtArgs> | null
+  where?: Prisma.ProjectProductWhereInput
+  orderBy?: Prisma.ProjectProductOrderByWithRelationInput | Prisma.ProjectProductOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectProductWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
+  distinct?: Prisma.ProjectProductScalarFieldEnum | Prisma.ProjectProductScalarFieldEnum[]
 }
 
 /**

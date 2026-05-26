@@ -108,6 +108,11 @@ export type FeaturedProduct = Prisma.FeaturedProductModel
  */
 export type Project = Prisma.ProjectModel
 /**
+ * Model ProjectProduct
+ * 
+ */
+export type ProjectProduct = Prisma.ProjectProductModel
+/**
  * Model ProjectImages
  * 
  */

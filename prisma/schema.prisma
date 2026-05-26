@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  
 }
 
 model User {
@@ -148,7 +149,7 @@ model Product {
   category         Category?         @relation(fields: [id_category], references: [id])
   ac_type          AcType?           @relation(fields: [id_ac_type], references: [id])
   images           ProductImages[]
-  projects         Project[]
+  projects         ProjectProduct[]
   reviews          Review[]
   wishlistItems    WishlistItem[]
 }
@@ -190,15 +191,24 @@ model FeaturedProduct {
 }
 
 model Project {
-  id          Int             @id @default(autoincrement())
-  id_product  String
+  id          Int              @id @default(autoincrement())
   name        String
   description String?
   date        DateTime?
   location    String?
   category    String?
-  product     Product         @relation(fields: [id_product], references: [id])
+  products    ProjectProduct[]
   images      ProjectImages[]
+}
+
+model ProjectProduct {
+  id         Int     @id @default(autoincrement())
+  id_project Int
+  id_product String
+  project    Project @relation(fields: [id_project], references: [id], onDelete: Cascade)
+  product    Product @relation(fields: [id_product], references: [id])
+
+  @@unique([id_project, id_product])
 }
 
 model ProjectImages {

@@ -1,22 +1,28 @@
-import { IsOptional, IsString } from 'class-validator';
+import { ArrayMinSize, IsArray, IsOptional, IsString } from 'class-validator';
 
 export class UpdateProjectDto {
-    @IsString()
-    @IsOptional()
-    name?: string;
+  @IsArray()
+  @IsString({ each: true })
+  @ArrayMinSize(1)
+  @IsOptional()
+  id_products?: string[];
 
-    @IsString()
-    @IsOptional()
-    description?: string;
+  @IsString()
+  @IsOptional()
+  name?: string;
 
-    @IsOptional()
-    date?: Date;
+  @IsString()
+  @IsOptional()
+  description?: string;
 
-    @IsString()
-    @IsOptional()
-    location?: string;
+  @IsOptional()
+  date?: Date;
 
-    @IsString()
-    @IsOptional()
-    category?: string;
+  @IsString()
+  @IsOptional()
+  location?: string;
+
+  @IsString()
+  @IsOptional()
+  category?: string;
 }

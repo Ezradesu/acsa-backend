@@ -36,7 +36,6 @@ export type ProjectSumAggregateOutputType = {
 
 export type ProjectMinAggregateOutputType = {
   id: number | null
-  id_product: string | null
   name: string | null
   description: string | null
   date: Date | null
@@ -46,7 +45,6 @@ export type ProjectMinAggregateOutputType = {
 
 export type ProjectMaxAggregateOutputType = {
   id: number | null
-  id_product: string | null
   name: string | null
   description: string | null
   date: Date | null
@@ -56,7 +54,6 @@ export type ProjectMaxAggregateOutputType = {
 
 export type ProjectCountAggregateOutputType = {
   id: number
-  id_product: number
   name: number
   description: number
   date: number
@@ -76,7 +73,6 @@ export type ProjectSumAggregateInputType = {
 
 export type ProjectMinAggregateInputType = {
   id?: true
-  id_product?: true
   name?: true
   description?: true
   date?: true
@@ -86,7 +82,6 @@ export type ProjectMinAggregateInputType = {
 
 export type ProjectMaxAggregateInputType = {
   id?: true
-  id_product?: true
   name?: true
   description?: true
   date?: true
@@ -96,7 +91,6 @@ export type ProjectMaxAggregateInputType = {
 
 export type ProjectCountAggregateInputType = {
   id?: true
-  id_product?: true
   name?: true
   description?: true
   date?: true
@@ -193,7 +187,6 @@ export type ProjectGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type ProjectGroupByOutputType = {
   id: number
-  id_product: string
   name: string
   description: string | null
   date: Date | null
@@ -226,25 +219,23 @@ export type ProjectWhereInput = {
   OR?: Prisma.ProjectWhereInput[]
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   id?: Prisma.IntFilter<"Project"> | number
-  id_product?: Prisma.StringFilter<"Project"> | string
   name?: Prisma.StringFilter<"Project"> | string
   description?: Prisma.StringNullableFilter<"Project"> | string | null
   date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   location?: Prisma.StringNullableFilter<"Project"> | string | null
   category?: Prisma.StringNullableFilter<"Project"> | string | null
-  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  products?: Prisma.ProjectProductListRelationFilter
   images?: Prisma.ProjectImagesListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  id_product?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrderInput | Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   category?: Prisma.SortOrderInput | Prisma.SortOrder
-  product?: Prisma.ProductOrderByWithRelationInput
+  products?: Prisma.ProjectProductOrderByRelationAggregateInput
   images?: Prisma.ProjectImagesOrderByRelationAggregateInput
 }
 
@@ -253,19 +244,17 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   OR?: Prisma.ProjectWhereInput[]
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
-  id_product?: Prisma.StringFilter<"Project"> | string
   name?: Prisma.StringFilter<"Project"> | string
   description?: Prisma.StringNullableFilter<"Project"> | string | null
   date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   location?: Prisma.StringNullableFilter<"Project"> | string | null
   category?: Prisma.StringNullableFilter<"Project"> | string | null
-  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  products?: Prisma.ProjectProductListRelationFilter
   images?: Prisma.ProjectImagesListRelationFilter
 }, "id">
 
 export type ProjectOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  id_product?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   date?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -283,7 +272,6 @@ export type ProjectScalarWhereWithAggregatesInput = {
   OR?: Prisma.ProjectScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProjectScalarWhereWithAggregatesInput | Prisma.ProjectScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Project"> | number
-  id_product?: Prisma.StringWithAggregatesFilter<"Project"> | string
   name?: Prisma.StringWithAggregatesFilter<"Project"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   date?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
@@ -297,18 +285,18 @@ export type ProjectCreateInput = {
   date?: Date | string | null
   location?: string | null
   category?: string | null
-  product: Prisma.ProductCreateNestedOneWithoutProjectsInput
+  products?: Prisma.ProjectProductCreateNestedManyWithoutProjectInput
   images?: Prisma.ProjectImagesCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
   id?: number
-  id_product: string
   name: string
   description?: string | null
   date?: Date | string | null
   location?: string | null
   category?: string | null
+  products?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProjectInput
   images?: Prisma.ProjectImagesUncheckedCreateNestedManyWithoutProjectInput
 }
 
@@ -318,24 +306,23 @@ export type ProjectUpdateInput = {
   date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product?: Prisma.ProductUpdateOneRequiredWithoutProjectsNestedInput
+  products?: Prisma.ProjectProductUpdateManyWithoutProjectNestedInput
   images?: Prisma.ProjectImagesUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  id_product?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.ProjectProductUncheckedUpdateManyWithoutProjectNestedInput
   images?: Prisma.ProjectImagesUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
   id?: number
-  id_product: string
   name: string
   description?: string | null
   date?: Date | string | null
@@ -353,7 +340,6 @@ export type ProjectUpdateManyMutationInput = {
 
 export type ProjectUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  id_product?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -361,19 +347,8 @@ export type ProjectUncheckedUpdateManyInput = {
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type ProjectListRelationFilter = {
-  every?: Prisma.ProjectWhereInput
-  some?: Prisma.ProjectWhereInput
-  none?: Prisma.ProjectWhereInput
-}
-
-export type ProjectOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type ProjectCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  id_product?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -387,7 +362,6 @@ export type ProjectAvgOrderByAggregateInput = {
 
 export type ProjectMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  id_product?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -397,7 +371,6 @@ export type ProjectMaxOrderByAggregateInput = {
 
 export type ProjectMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  id_product?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -414,50 +387,22 @@ export type ProjectScalarRelationFilter = {
   isNot?: Prisma.ProjectWhereInput
 }
 
-export type ProjectCreateNestedManyWithoutProductInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutProductInput, Prisma.ProjectUncheckedCreateWithoutProductInput> | Prisma.ProjectCreateWithoutProductInput[] | Prisma.ProjectUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutProductInput | Prisma.ProjectCreateOrConnectWithoutProductInput[]
-  createMany?: Prisma.ProjectCreateManyProductInputEnvelope
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-}
-
-export type ProjectUncheckedCreateNestedManyWithoutProductInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutProductInput, Prisma.ProjectUncheckedCreateWithoutProductInput> | Prisma.ProjectCreateWithoutProductInput[] | Prisma.ProjectUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutProductInput | Prisma.ProjectCreateOrConnectWithoutProductInput[]
-  createMany?: Prisma.ProjectCreateManyProductInputEnvelope
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-}
-
-export type ProjectUpdateManyWithoutProductNestedInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutProductInput, Prisma.ProjectUncheckedCreateWithoutProductInput> | Prisma.ProjectCreateWithoutProductInput[] | Prisma.ProjectUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutProductInput | Prisma.ProjectCreateOrConnectWithoutProductInput[]
-  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutProductInput | Prisma.ProjectUpsertWithWhereUniqueWithoutProductInput[]
-  createMany?: Prisma.ProjectCreateManyProductInputEnvelope
-  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutProductInput | Prisma.ProjectUpdateWithWhereUniqueWithoutProductInput[]
-  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutProductInput | Prisma.ProjectUpdateManyWithWhereWithoutProductInput[]
-  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-}
-
-export type ProjectUncheckedUpdateManyWithoutProductNestedInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutProductInput, Prisma.ProjectUncheckedCreateWithoutProductInput> | Prisma.ProjectCreateWithoutProductInput[] | Prisma.ProjectUncheckedCreateWithoutProductInput[]
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutProductInput | Prisma.ProjectCreateOrConnectWithoutProductInput[]
-  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutProductInput | Prisma.ProjectUpsertWithWhereUniqueWithoutProductInput[]
-  createMany?: Prisma.ProjectCreateManyProductInputEnvelope
-  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
-  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutProductInput | Prisma.ProjectUpdateWithWhereUniqueWithoutProductInput[]
-  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutProductInput | Prisma.ProjectUpdateManyWithWhereWithoutProductInput[]
-  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type ProjectCreateNestedOneWithoutProductsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutProductsInput, Prisma.ProjectUncheckedCreateWithoutProductsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutProductsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneRequiredWithoutProductsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutProductsInput, Prisma.ProjectUncheckedCreateWithoutProductsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutProductsInput
+  upsert?: Prisma.ProjectUpsertWithoutProductsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutProductsInput, Prisma.ProjectUpdateWithoutProductsInput>, Prisma.ProjectUncheckedUpdateWithoutProductsInput>
 }
 
 export type ProjectCreateNestedOneWithoutImagesInput = {
@@ -474,7 +419,7 @@ export type ProjectUpdateOneRequiredWithoutImagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutImagesInput, Prisma.ProjectUpdateWithoutImagesInput>, Prisma.ProjectUncheckedUpdateWithoutImagesInput>
 }
 
-export type ProjectCreateWithoutProductInput = {
+export type ProjectCreateWithoutProductsInput = {
   name: string
   description?: string | null
   date?: Date | string | null
@@ -483,7 +428,7 @@ export type ProjectCreateWithoutProductInput = {
   images?: Prisma.ProjectImagesCreateNestedManyWithoutProjectInput
 }
 
-export type ProjectUncheckedCreateWithoutProductInput = {
+export type ProjectUncheckedCreateWithoutProductsInput = {
   id?: number
   name: string
   description?: string | null
@@ -493,43 +438,39 @@ export type ProjectUncheckedCreateWithoutProductInput = {
   images?: Prisma.ProjectImagesUncheckedCreateNestedManyWithoutProjectInput
 }
 
-export type ProjectCreateOrConnectWithoutProductInput = {
+export type ProjectCreateOrConnectWithoutProductsInput = {
   where: Prisma.ProjectWhereUniqueInput
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutProductInput, Prisma.ProjectUncheckedCreateWithoutProductInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutProductsInput, Prisma.ProjectUncheckedCreateWithoutProductsInput>
 }
 
-export type ProjectCreateManyProductInputEnvelope = {
-  data: Prisma.ProjectCreateManyProductInput | Prisma.ProjectCreateManyProductInput[]
-  skipDuplicates?: boolean
+export type ProjectUpsertWithoutProductsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutProductsInput, Prisma.ProjectUncheckedUpdateWithoutProductsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutProductsInput, Prisma.ProjectUncheckedCreateWithoutProductsInput>
+  where?: Prisma.ProjectWhereInput
 }
 
-export type ProjectUpsertWithWhereUniqueWithoutProductInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  update: Prisma.XOR<Prisma.ProjectUpdateWithoutProductInput, Prisma.ProjectUncheckedUpdateWithoutProductInput>
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutProductInput, Prisma.ProjectUncheckedCreateWithoutProductInput>
+export type ProjectUpdateToOneWithWhereWithoutProductsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutProductsInput, Prisma.ProjectUncheckedUpdateWithoutProductsInput>
 }
 
-export type ProjectUpdateWithWhereUniqueWithoutProductInput = {
-  where: Prisma.ProjectWhereUniqueInput
-  data: Prisma.XOR<Prisma.ProjectUpdateWithoutProductInput, Prisma.ProjectUncheckedUpdateWithoutProductInput>
+export type ProjectUpdateWithoutProductsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.ProjectImagesUpdateManyWithoutProjectNestedInput
 }
 
-export type ProjectUpdateManyWithWhereWithoutProductInput = {
-  where: Prisma.ProjectScalarWhereInput
-  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutProductInput>
-}
-
-export type ProjectScalarWhereInput = {
-  AND?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-  OR?: Prisma.ProjectScalarWhereInput[]
-  NOT?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
-  id?: Prisma.IntFilter<"Project"> | number
-  id_product?: Prisma.StringFilter<"Project"> | string
-  name?: Prisma.StringFilter<"Project"> | string
-  description?: Prisma.StringNullableFilter<"Project"> | string | null
-  date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
-  location?: Prisma.StringNullableFilter<"Project"> | string | null
-  category?: Prisma.StringNullableFilter<"Project"> | string | null
+export type ProjectUncheckedUpdateWithoutProductsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.ProjectImagesUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutImagesInput = {
@@ -538,17 +479,17 @@ export type ProjectCreateWithoutImagesInput = {
   date?: Date | string | null
   location?: string | null
   category?: string | null
-  product: Prisma.ProductCreateNestedOneWithoutProjectsInput
+  products?: Prisma.ProjectProductCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutImagesInput = {
   id?: number
-  id_product: string
   name: string
   description?: string | null
   date?: Date | string | null
   location?: string | null
   category?: string | null
+  products?: Prisma.ProjectProductUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutImagesInput = {
@@ -573,54 +514,17 @@ export type ProjectUpdateWithoutImagesInput = {
   date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  product?: Prisma.ProductUpdateOneRequiredWithoutProjectsNestedInput
+  products?: Prisma.ProjectProductUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutImagesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  id_product?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-}
-
-export type ProjectCreateManyProductInput = {
-  id?: number
-  name: string
-  description?: string | null
-  date?: Date | string | null
-  location?: string | null
-  category?: string | null
-}
-
-export type ProjectUpdateWithoutProductInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.ProjectImagesUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectUncheckedUpdateWithoutProductInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.ProjectImagesUncheckedUpdateManyWithoutProjectNestedInput
-}
-
-export type ProjectUncheckedUpdateManyWithoutProductInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.ProjectProductUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 
@@ -629,10 +533,12 @@ export type ProjectUncheckedUpdateManyWithoutProductInput = {
  */
 
 export type ProjectCountOutputType = {
+  products: number
   images: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  products?: boolean | ProjectCountOutputTypeCountProductsArgs
   images?: boolean | ProjectCountOutputTypeCountImagesArgs
 }
 
@@ -649,6 +555,13 @@ export type ProjectCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * ProjectCountOutputType without action
  */
+export type ProjectCountOutputTypeCountProductsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectProductWhereInput
+}
+
+/**
+ * ProjectCountOutputType without action
+ */
 export type ProjectCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ProjectImagesWhereInput
 }
@@ -656,42 +569,36 @@ export type ProjectCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  id_product?: boolean
   name?: boolean
   description?: boolean
   date?: boolean
   location?: boolean
   category?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  products?: boolean | Prisma.Project$productsArgs<ExtArgs>
   images?: boolean | Prisma.Project$imagesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  id_product?: boolean
   name?: boolean
   description?: boolean
   date?: boolean
   location?: boolean
   category?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  id_product?: boolean
   name?: boolean
   description?: boolean
   date?: boolean
   location?: boolean
   category?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectScalar = {
   id?: boolean
-  id_product?: boolean
   name?: boolean
   description?: boolean
   date?: boolean
@@ -699,28 +606,23 @@ export type ProjectSelectScalar = {
   category?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "id_product" | "name" | "description" | "date" | "location" | "category", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "date" | "location" | "category", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  products?: boolean | Prisma.Project$productsArgs<ExtArgs>
   images?: boolean | Prisma.Project$imagesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
-}
-export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
-}
+export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Project"
   objects: {
-    product: Prisma.$ProductPayload<ExtArgs>
+    products: Prisma.$ProjectProductPayload<ExtArgs>[]
     images: Prisma.$ProjectImagesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    id_product: string
     name: string
     description: string | null
     date: Date | null
@@ -1120,7 +1022,7 @@ readonly fields: ProjectFieldRefs;
  */
 export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  products<T extends Prisma.Project$productsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$productsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   images<T extends Prisma.Project$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectImagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1152,7 +1054,6 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface ProjectFieldRefs {
   readonly id: Prisma.FieldRef<"Project", 'Int'>
-  readonly id_product: Prisma.FieldRef<"Project", 'String'>
   readonly name: Prisma.FieldRef<"Project", 'String'>
   readonly description: Prisma.FieldRef<"Project", 'String'>
   readonly date: Prisma.FieldRef<"Project", 'DateTime'>
@@ -1412,10 +1313,6 @@ export type ProjectCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    */
   data: Prisma.ProjectCreateManyInput | Prisma.ProjectCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1486,10 +1383,6 @@ export type ProjectUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many Projects to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1556,6 +1449,30 @@ export type ProjectDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Projects to delete.
    */
   limit?: number
+}
+
+/**
+ * Project.products
+ */
+export type Project$productsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectProduct
+   */
+  select?: Prisma.ProjectProductSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectProduct
+   */
+  omit?: Prisma.ProjectProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectProductInclude<ExtArgs> | null
+  where?: Prisma.ProjectProductWhereInput
+  orderBy?: Prisma.ProjectProductOrderByWithRelationInput | Prisma.ProjectProductOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectProductWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectProductScalarFieldEnum | Prisma.ProjectProductScalarFieldEnum[]
 }
 
 /**

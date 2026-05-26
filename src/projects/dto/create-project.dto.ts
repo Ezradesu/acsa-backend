@@ -1,26 +1,34 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ArrayMinSize,
+} from 'class-validator';
 
 export class CreateProjectDto {
-    @IsString()
-    @IsNotEmpty()
-    id_product: string;
+  @IsArray()
+  @IsString({ each: true })
+  @ArrayMinSize(1)
+  @IsNotEmpty()
+  id_products: string[];
 
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsString()
-    @IsOptional()
-    description?: string;
+  @IsString()
+  @IsOptional()
+  description?: string;
 
-    @IsOptional()
-    date?: Date;
+  @IsOptional()
+  date?: Date;
 
-    @IsString()
-    @IsOptional()
-    location?: string;
+  @IsString()
+  @IsOptional()
+  location?: string;
 
-    @IsString()
-    @IsOptional()
-    category?: string;
+  @IsString()
+  @IsOptional()
+  category?: string;
 }
