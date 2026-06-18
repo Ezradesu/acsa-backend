@@ -2,6 +2,7 @@ import {
     BadRequestException,
     ConflictException,
     Injectable,
+    Logger,
     NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
@@ -15,6 +16,8 @@ import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
+    private readonly logger = new Logger(AuthService.name);
+
     constructor(
         private prisma: PrismaService,
         private jwt: JwtService,
@@ -41,12 +44,20 @@ export class AuthService {
             },
         });
 
-        await this.email.sendVerificationEmail(user.email, verificationToken);
+        let emailSent = true;
+        try {
+            await this.email.sendVerificationEmail(user.email, verificationToken);
+        } catch (error) {
+            this.logger.error(`Failed to send verification email to ${user.email}: ${error.message}`, error.stack);
+            emailSent = false;
+        }
 
         const { password, verification_token, verification_expires, ...result } = user;
         return {
             ...result,
-            message: 'Registrasi berhasil. Silakan cek email Anda untuk verifikasi.',
+            message: emailSent
+                ? 'Registrasi berhasil. Silakan cek email Anda untuk verifikasi.'
+                : 'Registrasi berhasil, tetapi gagal mengirim email verifikasi. Silakan minta kirim ulang verifikasi.',
         };
     }
 

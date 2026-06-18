@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
 @Injectable()
@@ -6,23 +7,24 @@ export class EmailService {
     private readonly logger = new Logger(EmailService.name);
     private transporter: nodemailer.Transporter;
 
-    constructor() {
+    constructor(private config: ConfigService) {
         this.transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            port: Number(process.env.SMTP_PORT) || 587,
+            host: this.config.get<string>('SMTP_HOST'),
+            port: Number(this.config.get('SMTP_PORT')) || 587,
             secure: false, // TLS via STARTTLS
             auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
+                user: this.config.get<string>('SMTP_USER'),
+                pass: this.config.get<string>('SMTP_PASS'),
             },
         });
     }
 
     async sendVerificationEmail(to: string, token: string): Promise<void> {
-        const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+        const frontendUrl = this.config.get<string>('FRONTEND_URL') || 'http://localhost:3000';
+        const verificationUrl = `${frontendUrl}/verify-email?token=${token}`;
 
         await this.transporter.sendMail({
-            from: process.env.SMTP_FROM ?? `"ACSA" <noreply@acsejukabadi.com>`,
+            from: this.config.get<string>('SMTP_FROM') ?? `"ACSA" <noreply@acsejukabadi.com>`,
             to,
             subject: 'Verifikasi Email - ACSA Sejuk Abadi',
             html: `
