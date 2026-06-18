@@ -42,8 +42,7 @@
     "pg": "^8.20.0",
     "prisma": "^7.5.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
-    "sharp": "^0.35.1"
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -59,7 +58,6 @@
     "@types/node": "^22.10.7",
     "@types/nodemailer": "^8.0.1",
     "@types/passport-jwt": "^4.0.1",
-    "@types/sharp": "^0.31.1",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
@@ -92,8 +90,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "optionalDependencies": {
-    "@img/sharp-linux-x64": "^0.35.1"
   }
 }
