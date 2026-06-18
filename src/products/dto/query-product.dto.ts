@@ -68,4 +68,16 @@ export class QueryProductDto {
     @IsOptional()
     @IsString()
     sortOrder?: 'asc' | 'desc';
+
+    @IsOptional()
+    @IsString()
+    freon_type?: string;
+
+    @IsOptional()
+    @IsString()
+    model_code?: string;
+
+    @IsOptional()
+    @IsString()
+    series_name?: string;
 }

@@ -105,6 +105,9 @@ export const UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   role: 'role',
+  is_verified: 'is_verified',
+  verification_token: 'verification_token',
+  verification_expires: 'verification_expires',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const
@@ -237,6 +240,9 @@ export const ProductScalarFieldEnum = {
   price: 'price',
   quantity: 'quantity',
   pk: 'pk',
+  freon_type: 'freon_type',
+  model_code: 'model_code',
+  series_name: 'series_name',
   created_at: 'created_at',
   updated_at: 'updated_at',
   is_deleted: 'is_deleted'

@@ -25,6 +25,9 @@ export class ProductsService {
         if (id_category && id_category.length > 0) {
             where.id_category = { in: id_category };
         }
+        if (query.freon_type) where.freon_type = { contains: query.freon_type, mode: 'insensitive' };
+        if (query.model_code) where.model_code = { contains: query.model_code, mode: 'insensitive' };
+        if (query.series_name) where.series_name = { contains: query.series_name, mode: 'insensitive' };
 
         if (min_price || max_price) {
             where.price = {};

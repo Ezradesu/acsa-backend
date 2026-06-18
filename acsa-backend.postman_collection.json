@@ -1,0 +1,378 @@
+{
+	"info": {
+		"_postman_id": "b18b628f-7e99-4d6c-85a2-0a1a0c8b3206",
+		"name": "ACSA Backend API",
+		"description": "Postman collection untuk menguji fitur-fitur ACSA Backend, termasuk Registrasi, Verifikasi Email, Login, pencarian & filter Produk dengan field baru (freon_type, model_code, series_name), dan Upload Gambar ke Supabase dengan konversi otomatis ke WebP.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"password123\",\n    \"first_name\": \"Budi\",\n    \"last_name\": \"Susanto\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Mendaftarkan user baru. User yang didaftarkan akan berstatus belum terverifikasi (`is_verified = false`) dan menerima email verifikasi."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/verify-email?token={{verificationToken}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"verify-email"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{verificationToken}}",
+									"description": "Token verifikasi yang didapat dari email atau dari database (kolom verification_token)"
+								}
+							]
+						},
+						"description": "Memverifikasi email user dengan token verifikasi yang dikirimkan ke email."
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Verification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testuser@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/resend-verification",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"resend-verification"
+							]
+						},
+						"description": "Mengirim ulang email verifikasi jika email verifikasi sebelumnya kedaluwarsa atau belum diterima."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.access_token) {",
+									"    pm.collectionVariables.set(\"authToken\", response.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login untuk mendapatkan token JWT. Hanya bisa login jika user sudah memverifikasi email."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						},
+						"description": "Mendapatkan profil detail pengguna yang sedang login."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"AC Daikin FTC15NV14\",\n    \"description\": \"Daikin AC Standard Thailand FTC Series NV14\",\n    \"price\": 3500000,\n    \"quantity\": 15,\n    \"id_brand\": 1,\n    \"id_category\": 1,\n    \"freon_type\": \"R32\",\n    \"model_code\": \"FTC15NV14\",\n    \"series_name\": \"FTC Series\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Membuat produk baru beserta detail spesifikasi freon, kode model, dan nama seri (Hanya Admin)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products with Filters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products?freon_type=R32&model_code=FTC15&series_name=FTC",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "freon_type",
+									"value": "R32",
+									"description": "Filter berdasarkan jenis freon (case-insensitive)"
+								},
+								{
+									"key": "model_code",
+									"value": "FTC15",
+									"description": "Filter berdasarkan kode model (case-insensitive)"
+								},
+								{
+									"key": "series_name",
+									"value": "FTC",
+									"description": "Filter berdasarkan nama seri (case-insensitive)"
+								}
+							]
+						},
+						"description": "Mendapatkan semua produk dengan filter opsional berupa freon_type, model_code, dan series_name."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"AC Daikin FTC15NV14 (Updated)\",\n    \"freon_type\": \"R32 Eco\",\n    \"model_code\": \"FTC15NV14-UPDATED\",\n    \"series_name\": \"FTC Eco Series\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "GANTI_DENGAN_ID_PRODUCT"
+								}
+							]
+						},
+						"description": "Memperbarui detail produk (Hanya Admin)."
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Product Image (Convert to WebP)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"description": "Pilih file gambar (PNG/JPG/JPEG dsb.) untuk diunggah. SupabaseService akan otomatis mengkonversi file ini menjadi format WebP.",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/:id/images",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								":id",
+								"images"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "GANTI_DENGAN_ID_PRODUCT"
+								}
+							]
+						},
+						"description": "Mengunggah gambar produk. SupabaseService akan secara otomatis mendeteksi jika berkas yang diunggah berupa gambar dan mengkonversinya ke ekstensi & format WebP."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "verificationToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

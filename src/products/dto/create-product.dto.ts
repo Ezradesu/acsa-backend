@@ -35,4 +35,16 @@ export class CreateProductDto {
     @IsOptional()
     @Type(() => Number)
     id_category?: number;
+
+    @IsString()
+    @IsOptional()
+    freon_type?: string;
+
+    @IsString()
+    @IsOptional()
+    model_code?: string;
+
+    @IsString()
+    @IsOptional()
+    series_name?: string;
 }

@@ -387,10 +387,6 @@ export type ProjectScalarRelationFilter = {
   isNot?: Prisma.ProjectWhereInput
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type ProjectCreateNestedOneWithoutProductsInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutProductsInput, Prisma.ProjectUncheckedCreateWithoutProductsInput>
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutProductsInput

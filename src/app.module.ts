@@ -24,6 +24,7 @@ import { SocialMediaModule } from './social-media/social-media.module';
 import { StaffModule } from './staff/staff.module';
 import { UsersModule } from './users/users.module';
 import { AcTypesModule } from './ac-types/ac-types.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { AcTypesModule } from './ac-types/ac-types.module';
     StaffModule,
     UsersModule,
     AcTypesModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService, SupabaseService],

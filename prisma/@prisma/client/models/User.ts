@@ -35,6 +35,9 @@ export type UserMinAggregateOutputType = {
   email: string | null
   password: string | null
   role: string | null
+  is_verified: boolean | null
+  verification_token: string | null
+  verification_expires: Date | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -50,6 +53,9 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   password: string | null
   role: string | null
+  is_verified: boolean | null
+  verification_token: string | null
+  verification_expires: Date | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -65,6 +71,9 @@ export type UserCountAggregateOutputType = {
   email: number
   password: number
   role: number
+  is_verified: number
+  verification_token: number
+  verification_expires: number
   created_at: number
   updated_at: number
   _all: number
@@ -82,6 +91,9 @@ export type UserMinAggregateInputType = {
   email?: true
   password?: true
   role?: true
+  is_verified?: true
+  verification_token?: true
+  verification_expires?: true
   created_at?: true
   updated_at?: true
 }
@@ -97,6 +109,9 @@ export type UserMaxAggregateInputType = {
   email?: true
   password?: true
   role?: true
+  is_verified?: true
+  verification_token?: true
+  verification_expires?: true
   created_at?: true
   updated_at?: true
 }
@@ -112,6 +127,9 @@ export type UserCountAggregateInputType = {
   email?: true
   password?: true
   role?: true
+  is_verified?: true
+  verification_token?: true
+  verification_expires?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -200,6 +218,9 @@ export type UserGroupByOutputType = {
   email: string
   password: string
   role: string
+  is_verified: boolean
+  verification_token: string | null
+  verification_expires: Date | null
   created_at: Date
   updated_at: Date
   _count: UserCountAggregateOutputType | null
@@ -236,6 +257,9 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.StringFilter<"User"> | string
+  is_verified?: Prisma.BoolFilter<"User"> | boolean
+  verification_token?: Prisma.StringNullableFilter<"User"> | string | null
+  verification_expires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"User"> | Date | string
   carts?: Prisma.CartListRelationFilter
@@ -255,6 +279,9 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  is_verified?: Prisma.SortOrder
+  verification_token?: Prisma.SortOrderInput | Prisma.SortOrder
+  verification_expires?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   carts?: Prisma.CartOrderByRelationAggregateInput
@@ -266,6 +293,7 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  verification_token?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -277,13 +305,15 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   zip_code?: Prisma.StringNullableFilter<"User"> | string | null
   password?: Prisma.StringFilter<"User"> | string
   role?: Prisma.StringFilter<"User"> | string
+  is_verified?: Prisma.BoolFilter<"User"> | boolean
+  verification_expires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"User"> | Date | string
   carts?: Prisma.CartListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   wishlists?: Prisma.WishlistListRelationFilter
-}, "id" | "email">
+}, "id" | "email" | "verification_token">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -296,6 +326,9 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  is_verified?: Prisma.SortOrder
+  verification_token?: Prisma.SortOrderInput | Prisma.SortOrder
+  verification_expires?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -317,6 +350,9 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
+  is_verified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  verification_token?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  verification_expires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -332,6 +368,9 @@ export type UserCreateInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
@@ -351,6 +390,9 @@ export type UserUncheckedCreateInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
@@ -370,6 +412,9 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
@@ -389,6 +434,9 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
@@ -408,6 +456,9 @@ export type UserCreateManyInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -423,6 +474,9 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -438,6 +492,9 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -453,6 +510,9 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  is_verified?: Prisma.SortOrder
+  verification_token?: Prisma.SortOrder
+  verification_expires?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -468,6 +528,9 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  is_verified?: Prisma.SortOrder
+  verification_token?: Prisma.SortOrder
+  verification_expires?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -483,6 +546,9 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  is_verified?: Prisma.SortOrder
+  verification_token?: Prisma.SortOrder
+  verification_expires?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -498,6 +564,14 @@ export type StringFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -571,6 +645,9 @@ export type UserCreateWithoutCartsInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
@@ -589,6 +666,9 @@ export type UserUncheckedCreateWithoutCartsInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
@@ -623,6 +703,9 @@ export type UserUpdateWithoutCartsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
@@ -641,6 +724,9 @@ export type UserUncheckedUpdateWithoutCartsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -659,6 +745,9 @@ export type UserCreateWithoutWishlistsInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
@@ -677,6 +766,9 @@ export type UserUncheckedCreateWithoutWishlistsInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
@@ -711,6 +803,9 @@ export type UserUpdateWithoutWishlistsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
@@ -729,6 +824,9 @@ export type UserUncheckedUpdateWithoutWishlistsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
@@ -747,6 +845,9 @@ export type UserCreateWithoutOrdersInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
@@ -765,6 +866,9 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
@@ -799,6 +903,9 @@ export type UserUpdateWithoutOrdersInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
@@ -817,6 +924,9 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
@@ -835,6 +945,9 @@ export type UserCreateWithoutReviewsInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   carts?: Prisma.CartCreateNestedManyWithoutUserInput
@@ -853,6 +966,9 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   email: string
   password: string
   role?: string
+  is_verified?: boolean
+  verification_token?: string | null
+  verification_expires?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string
   carts?: Prisma.CartUncheckedCreateNestedManyWithoutUserInput
@@ -887,6 +1003,9 @@ export type UserUpdateWithoutReviewsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carts?: Prisma.CartUpdateManyWithoutUserNestedInput
@@ -905,6 +1024,9 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  is_verified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verification_token?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verification_expires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carts?: Prisma.CartUncheckedUpdateManyWithoutUserNestedInput
@@ -981,6 +1103,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   email?: boolean
   password?: boolean
   role?: boolean
+  is_verified?: boolean
+  verification_token?: boolean
+  verification_expires?: boolean
   created_at?: boolean
   updated_at?: boolean
   carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
@@ -1001,6 +1126,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   password?: boolean
   role?: boolean
+  is_verified?: boolean
+  verification_token?: boolean
+  verification_expires?: boolean
   created_at?: boolean
   updated_at?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1016,6 +1144,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   password?: boolean
   role?: boolean
+  is_verified?: boolean
+  verification_token?: boolean
+  verification_expires?: boolean
   created_at?: boolean
   updated_at?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1031,11 +1162,14 @@ export type UserSelectScalar = {
   email?: boolean
   password?: boolean
   role?: boolean
+  is_verified?: boolean
+  verification_token?: boolean
+  verification_expires?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "first_name" | "last_name" | "address" | "rt" | "rw" | "zip_code" | "email" | "password" | "role" | "created_at" | "updated_at", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "first_name" | "last_name" | "address" | "rt" | "rw" | "zip_code" | "email" | "password" | "role" | "is_verified" | "verification_token" | "verification_expires" | "created_at" | "updated_at", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   carts?: boolean | Prisma.User$cartsArgs<ExtArgs>
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
@@ -1065,6 +1199,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     password: string
     role: string
+    is_verified: boolean
+    verification_token: string | null
+    verification_expires: Date | null
     created_at: Date
     updated_at: Date
   }, ExtArgs["result"]["user"]>
@@ -1504,6 +1641,9 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'String'>
+  readonly is_verified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly verification_token: Prisma.FieldRef<"User", 'String'>
+  readonly verification_expires: Prisma.FieldRef<"User", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"User", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"User", 'DateTime'>
 }

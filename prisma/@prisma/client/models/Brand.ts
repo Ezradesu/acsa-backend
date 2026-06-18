@@ -350,10 +350,6 @@ export type BrandScalarRelationFilter = {
   isNot?: Prisma.BrandWhereInput
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type BrandCreateNestedOneWithoutSponsoredBrandsInput = {
   create?: Prisma.XOR<Prisma.BrandCreateWithoutSponsoredBrandsInput, Prisma.BrandUncheckedCreateWithoutSponsoredBrandsInput>
   connectOrCreate?: Prisma.BrandCreateOrConnectWithoutSponsoredBrandsInput
