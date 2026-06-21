@@ -27,4 +27,14 @@ export class UsersService {
     const { password, ...result } = updatedUser;
     return result;
   }
+
+  async deleteUser(id: string) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    // ponytail: delete user directly, Cascade onDelete is handled on relations if defined
+    await this.prisma.user.delete({ where: { id } });
+    return { message: 'User deleted' };
+  }
 }
