@@ -7,19 +7,21 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction =
+    process.env.NODE_ENV === 'production' ||
+    process.env.VERCEL_ENV === 'production';
 
   const allowedOrigins = [
     process.env.FRONTEND_URL,
     'http://localhost:3000',
     'http://localhost:3001',
-    'http://localhost:5500', // Live Server / npx serve
-    'http://127.0.0.1:5500', // Live Server (IP form)
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
     'https://ac-sejuk-abadi-frontend.vercel.app',
     'https://acsejukabadi.com',
+    'https://www.acsejukabadi.com',
     'https://acsa-frontend.vercel.app',
   ].filter(Boolean) as string[];
-
   app.enableCors({
     origin: isProduction
       ? (origin, callback) => {

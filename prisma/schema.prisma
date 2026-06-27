@@ -221,7 +221,7 @@ model ProjectImages {
   id         Int     @id @default(autoincrement())
   id_project Int
   image_url  String
-  project    Project @relation(fields: [id_project], references: [id])
+  project    Project @relation(fields: [id_project], references: [id], onDelete: Cascade)
 }
 
 model Article {
@@ -265,3 +265,4 @@ model Staff {
   role      String?
   image_url String?
 }
+
