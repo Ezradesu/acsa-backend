@@ -44,14 +44,8 @@ export class ArticlesService {
     }
 
     async remove(id: number) {
-        const article = await this.findOne(id);
-
-        // Hapus semua images dari storage
-        for (const image of article.images) {
-            const path = new URL(image.image_url).pathname.split('/').slice(-2).join('/');
-            await this.supabase.deleteFile(process.env.SUPABASE_STORAGE_BUCKET!, path);
-        }
-
+        await this.findOne(id);
+        // ponytail: cascade in schema handles ArticleImages rows automatically
         return this.prisma.article.delete({ where: { id } });
     }
 

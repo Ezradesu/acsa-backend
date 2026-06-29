@@ -238,7 +238,7 @@ model ArticleImages {
   id         Int     @id @default(autoincrement())
   id_artikel Int
   image_url  String
-  article    Article @relation(fields: [id_artikel], references: [id])
+  article    Article @relation(fields: [id_artikel], references: [id], onDelete: Cascade)
 }
 
 model Company {
