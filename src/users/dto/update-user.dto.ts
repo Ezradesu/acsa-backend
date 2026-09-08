@@ -33,8 +33,4 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional()
   zip_code?: string;
-
-  @IsString()
-  @IsOptional()
-  role?: string;
 }

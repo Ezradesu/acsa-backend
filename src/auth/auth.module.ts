@@ -5,17 +5,21 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtGuard } from './guards/jwt.guard';
-import { PrismaModule } from 'src/prisma/prisma.module';
-import { EmailModule } from 'src/email/email.module';
+import { PrismaModule } from '../prisma/prisma.module';
+import { EmailModule } from '../email/email.module';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
         PrismaModule,
         PassportModule,
         EmailModule,
-        JwtModule.register({
-            secret: process.env.JWT_SECRET,
-            signOptions: { expiresIn: '7d' },
+        JwtModule.registerAsync({
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => ({
+                secret: config.getOrThrow<string>('JWT_SECRET'),
+                signOptions: { expiresIn: '7d' },
+            }),
         }),
     ],
     providers: [AuthService, JwtStrategy, JwtGuard],

@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
-import { SupabaseService } from './supabase/supabase.service';
 import { SupabaseModule } from './supabase/supabase.module';
 import { CategoriesModule } from './categories/categories.module';
 import { BrandsModule } from './brands/brands.module';
@@ -25,10 +24,18 @@ import { StaffModule } from './staff/staff.module';
 import { UsersModule } from './users/users.module';
 import { AcTypesModule } from './ac-types/ac-types.module';
 import { EmailModule } from './email/email.module';
+import { validateEnvironment } from './config/env.validation';
+import { CatalogCacheModule } from './cache/catalog-cache.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validate: validateEnvironment,
+    }),
+    CatalogCacheModule,
+    SearchModule,
     PrismaModule,
     AuthModule,
     SupabaseModule,
@@ -53,6 +60,6 @@ import { EmailModule } from './email/email.module';
     EmailModule,
   ],
   controllers: [AppController],
-  providers: [AppService, SupabaseService],
+  providers: [AppService],
 })
 export class AppModule {}

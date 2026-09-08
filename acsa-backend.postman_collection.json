@@ -1,378 +1,2688 @@
 {
-	"info": {
-		"_postman_id": "b18b628f-7e99-4d6c-85a2-0a1a0c8b3206",
-		"name": "ACSA Backend API",
-		"description": "Postman collection untuk menguji fitur-fitur ACSA Backend, termasuk Registrasi, Verifikasi Email, Login, pencarian & filter Produk dengan field baru (freon_type, model_code, series_name), dan Upload Gambar ke Supabase dengan konversi otomatis ke WebP.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Authentication",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"password123\",\n    \"first_name\": \"Budi\",\n    \"last_name\": \"Susanto\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
-						},
-						"description": "Mendaftarkan user baru. User yang didaftarkan akan berstatus belum terverifikasi (`is_verified = false`) dan menerima email verifikasi."
-					},
-					"response": []
-				},
-				{
-					"name": "Verify Email",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/auth/verify-email?token={{verificationToken}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"verify-email"
-							],
-							"query": [
-								{
-									"key": "token",
-									"value": "{{verificationToken}}",
-									"description": "Token verifikasi yang didapat dari email atau dari database (kolom verification_token)"
-								}
-							]
-						},
-						"description": "Memverifikasi email user dengan token verifikasi yang dikirimkan ke email."
-					},
-					"response": []
-				},
-				{
-					"name": "Resend Verification",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"testuser@example.com\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/resend-verification",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"resend-verification"
-							]
-						},
-						"description": "Mengirim ulang email verifikasi jika email verifikasi sebelumnya kedaluwarsa atau belum diterima."
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const response = pm.response.json();",
-									"if (response.access_token) {",
-									"    pm.collectionVariables.set(\"authToken\", response.access_token);",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"testuser@example.com\",\n    \"password\": \"password123\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/login",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						},
-						"description": "Login untuk mendapatkan token JWT. Hanya bisa login jika user sudah memverifikasi email."
-					},
-					"response": []
-				},
-				{
-					"name": "Get Me",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/auth/me",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"me"
-							]
-						},
-						"description": "Mendapatkan profil detail pengguna yang sedang login."
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Products",
-			"item": [
-				{
-					"name": "Create Product",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"AC Daikin FTC15NV14\",\n    \"description\": \"Daikin AC Standard Thailand FTC Series NV14\",\n    \"price\": 3500000,\n    \"quantity\": 15,\n    \"id_brand\": 1,\n    \"id_category\": 1,\n    \"freon_type\": \"R32\",\n    \"model_code\": \"FTC15NV14\",\n    \"series_name\": \"FTC Series\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/products",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"products"
-							]
-						},
-						"description": "Membuat produk baru beserta detail spesifikasi freon, kode model, dan nama seri (Hanya Admin)."
-					},
-					"response": []
-				},
-				{
-					"name": "Get Products with Filters",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/products?freon_type=R32&model_code=FTC15&series_name=FTC",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"products"
-							],
-							"query": [
-								{
-									"key": "freon_type",
-									"value": "R32",
-									"description": "Filter berdasarkan jenis freon (case-insensitive)"
-								},
-								{
-									"key": "model_code",
-									"value": "FTC15",
-									"description": "Filter berdasarkan kode model (case-insensitive)"
-								},
-								{
-									"key": "series_name",
-									"value": "FTC",
-									"description": "Filter berdasarkan nama seri (case-insensitive)"
-								}
-							]
-						},
-						"description": "Mendapatkan semua produk dengan filter opsional berupa freon_type, model_code, dan series_name."
-					},
-					"response": []
-				},
-				{
-					"name": "Update Product",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"AC Daikin FTC15NV14 (Updated)\",\n    \"freon_type\": \"R32 Eco\",\n    \"model_code\": \"FTC15NV14-UPDATED\",\n    \"series_name\": \"FTC Eco Series\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/products/:id",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"products",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "GANTI_DENGAN_ID_PRODUCT"
-								}
-							]
-						},
-						"description": "Memperbarui detail produk (Hanya Admin)."
-					},
-					"response": []
-				},
-				{
-					"name": "Upload Product Image (Convert to WebP)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "files",
-									"description": "Pilih file gambar (PNG/JPG/JPEG dsb.) untuk diunggah. SupabaseService akan otomatis mengkonversi file ini menjadi format WebP.",
-									"type": "file",
-									"src": []
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseUrl}}/products/:id/images",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"products",
-								":id",
-								"images"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "GANTI_DENGAN_ID_PRODUCT"
-								}
-							]
-						},
-						"description": "Mengunggah gambar produk. SupabaseService akan secara otomatis mendeteksi jika berkas yang diunggah berupa gambar dan mengkonversinya ke ekstensi & format WebP."
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "baseUrl",
-			"value": "http://localhost:3000/api",
-			"type": "string"
-		},
-		{
-			"key": "authToken",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "verificationToken",
-			"value": "",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "b18b628f-7e99-4d6c-85a2-0a1a0c8b3206",
+    "name": "ACSA Backend API",
+    "description": "Koleksi handover ACSA Backend. Berisi 104 endpoint dari controller per 9 September 2026. Isi variabel dengan data uji. Jangan simpan token, password, service key, atau data pelanggan sebelum collection dibagikan.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Pemeriksaan aplikasi",
+      "description": "Request fitur Pemeriksaan aplikasi. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Root API",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Healthcheck",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/health",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Autentikasi dan pengguna",
+      "description": "Request fitur Autentikasi dan pengguna. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/register",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user.uji@acsa.example\",\n  \"password\": \"PasswordUji123!\",\n  \"first_name\": \"Nando\",\n  \"last_name\": \"Tester\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/login",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user.uji@acsa.example\",\n  \"password\": \"PasswordUji123!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.access_token) pm.collectionVariables.set('accessToken', json.access_token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verifikasi email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/auth/verify-email?token={{verificationToken}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Kirim ulang verifikasi",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/auth/resend-verification",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user.uji@acsa.example\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Profil saya",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/auth/me",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Daftar pengguna",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/auth/users",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah profil",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/users/{{userId}}",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Nando\",\n  \"last_name\": \"Tester\",\n  \"address\": \"Alamat data uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus pengguna",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/users/{{userId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Produk",
+      "description": "Request fitur Produk. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar produk",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/products?page=1&limit=10&search=",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail produk",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat produk",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/products",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_brand\": 1,\n  \"id_category\": 1,\n  \"id_ac_type\": 1,\n  \"name\": \"Produk Uji\",\n  \"description\": \"Hapus setelah pengujian\",\n  \"price\": 1000000,\n  \"quantity\": 5,\n  \"freon_type\": \"R32\",\n  \"model_code\": \"TEST-01\",\n  \"series_name\": \"Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah produk",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/products/{{productId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Produk Uji Diperbarui\",\n  \"price\": 1100000,\n  \"quantity\": 4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Soft delete produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unggah gambar produk",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}/images",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus gambar produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}/images/{{imageId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Brand",
+      "description": "Request fitur Brand. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar brand",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/brands?page=1&limit=10",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail brand",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/brands/{{brandId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat brand",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/brands",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Brand Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah brand",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/brands/{{brandId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Brand Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus brand",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/brands/{{brandId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unggah logo brand",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/brands/{{brandId}}/image",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Kategori",
+      "description": "Request fitur Kategori. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar kategori",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/categories?page=1&limit=10",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail kategori",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/categories/{{categoryId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat kategori",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/categories",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Kategori Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah kategori",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/categories/{{categoryId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Kategori Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus kategori",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/categories/{{categoryId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tipe AC",
+      "description": "Request fitur Tipe AC. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar tipe AC",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/ac-types?page=1&limit=10",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail tipe AC",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/ac-types/{{acTypeId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat tipe AC",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/ac-types",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tipe AC Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah tipe AC",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/ac-types/{{acTypeId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tipe AC Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus tipe AC",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/ac-types/{{acTypeId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Keranjang",
+      "description": "Request fitur Keranjang. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Keranjang saya",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/cart",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tambah item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/cart/items",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_product\": \"{{productId}}\",\n  \"quantity\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah jumlah item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/cart/items/{{cartItemId}}",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/cart/items/{{cartItemId}}",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Kosongkan keranjang",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/cart/clear",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Wishlist",
+      "description": "Request fitur Wishlist. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Wishlist saya",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/wishlist",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tambah item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/wishlist/items",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_product\": \"{{productId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/wishlist/items/{{wishlistItemId}}",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pesanan dan Midtrans",
+      "description": "Request fitur Pesanan dan Midtrans. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar pesanan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/orders",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail pesanan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat pesanan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/orders",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"id_product\": \"{{productId}}\",\n      \"quantity\": 1\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah status pesanan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/orders/{{orderId}}/status",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"processing\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Batalkan pesanan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/orders/{{orderId}}/cancel",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Webhook pembayaran",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/orders/payment/webhook",
+            "description": "Akses: signature. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"{{orderId}}\",\n  \"status_code\": \"200\",\n  \"gross_amount\": \"1000000.00\",\n  \"transaction_status\": \"settlement\",\n  \"fraud_status\": \"accept\",\n  \"signature_key\": \"ISI_SIGNATURE_SANDBOX_YANG_SAH\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "description": "Request fitur Review. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar review produk",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}/reviews",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/products/{{productId}}/reviews",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 5,\n  \"comment\": \"Review data uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah review",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/products/{{productId}}/reviews/{{reviewId}}",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 5,\n  \"comment\": \"Review data uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus review",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/products/{{productId}}/reviews/{{reviewId}}",
+            "description": "Akses: login. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Diskon",
+      "description": "Request fitur Diskon. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar diskon",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/discounts",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "diskon aktif",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/discounts/active",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail diskon",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/discounts/{{discountId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat diskon",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/discounts",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_product\": \"{{productId}}\",\n  \"price\": 900000,\n  \"start_date\": \"2026-09-09T00:00:00.000Z\",\n  \"end_date\": \"2026-09-30T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah diskon",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/discounts/{{discountId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 850000,\n  \"end_date\": \"2026-10-31T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus diskon",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/discounts/{{discountId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Produk pilihan",
+      "description": "Request fitur Produk pilihan. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar produk pilihan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/featured-products",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "produk pilihan aktif",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/featured-products/active",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail produk pilihan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/featured-products/{{featuredProductId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat produk pilihan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/featured-products",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_product\": \"{{productId}}\",\n  \"priority\": 1,\n  \"start_date\": \"2026-09-09T00:00:00.000Z\",\n  \"end_date\": \"2026-09-30T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah produk pilihan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/featured-products/{{featuredProductId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priority\": 2,\n  \"end_date\": \"2026-10-31T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus produk pilihan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/featured-products/{{featuredProductId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Brand sponsor",
+      "description": "Request fitur Brand sponsor. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar brand sponsor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/sponsored-brands",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "brand sponsor aktif",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/sponsored-brands/active",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail brand sponsor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/sponsored-brands/{{sponsoredBrandId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat brand sponsor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/sponsored-brands",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_brand\": 1,\n  \"priority\": 1,\n  \"start_date\": \"2026-09-09T00:00:00.000Z\",\n  \"end_date\": \"2026-09-30T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah brand sponsor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/sponsored-brands/{{sponsoredBrandId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priority\": 2,\n  \"end_date\": \"2026-10-31T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus brand sponsor",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/sponsored-brands/{{sponsoredBrandId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Banner",
+      "description": "Request fitur Banner. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar banner",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/banners",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "banner aktif",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/banners/active",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail banner",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/banners/{{bannerId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat banner",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/banners",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_brand\": 1,\n  \"name\": \"Banner Uji\",\n  \"category\": \"home\",\n  \"start_date\": \"2026-09-09T00:00:00.000Z\",\n  \"end_date\": \"2026-09-30T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah banner",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/banners/{{bannerId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_brand\": 1,\n  \"name\": \"Banner Uji\",\n  \"category\": \"home\",\n  \"start_date\": \"2026-09-09T00:00:00.000Z\",\n  \"end_date\": \"2026-09-30T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus banner",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/banners/{{bannerId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unggah gambar banner",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/banners/{{bannerId}}/image",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Proyek",
+      "description": "Request fitur Proyek. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar proyek",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/projects",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail proyek",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/projects/{{projectId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat proyek",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/projects",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Proyek Uji\",\n  \"description\": \"Hapus setelah pengujian\",\n  \"location\": \"Lokasi uji\",\n  \"id_products\": [\n    \"{{productId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah proyek",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/projects/{{projectId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Proyek Uji\",\n  \"description\": \"Hapus setelah pengujian\",\n  \"location\": \"Lokasi uji\",\n  \"id_products\": [\n    \"{{productId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus proyek",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/projects/{{projectId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unggah gambar proyek",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/projects/{{projectId}}/images",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus gambar proyek",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/projects/{{projectId}}/images/{{imageId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Artikel",
+      "description": "Request fitur Artikel. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar artikel",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/articles",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail artikel",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/articles/{{articleId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat artikel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/articles",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Artikel Uji\",\n  \"description\": \"Hapus setelah pengujian\",\n  \"category\": \"Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah artikel",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/articles/{{articleId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Artikel Uji\",\n  \"description\": \"Hapus setelah pengujian\",\n  \"category\": \"Uji\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus artikel",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/articles/{{articleId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unggah gambar artikel",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/articles/{{articleId}}/images",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus gambar artikel",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/articles/{{articleId}}/images/{{imageId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Perusahaan",
+      "description": "Request fitur Perusahaan. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Profil perusahaan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/company",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah profil perusahaan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/company",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"ACSA\",\n  \"description\": \"Data uji\",\n  \"email\": \"info@acsa.example\",\n  \"phone\": \"0000000000\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unggah logo perusahaan",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/company/logo",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Media sosial",
+      "description": "Request fitur Media sosial. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar media sosial",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/social-media",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail media sosial",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/social-media/{{socialMediaId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat media sosial",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/social-media",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Instagram\",\n  \"icon\": \"instagram\",\n  \"url\": \"https://example.com/acsa\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah media sosial",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/social-media/{{socialMediaId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Instagram\",\n  \"icon\": \"instagram\",\n  \"url\": \"https://example.com/acsa\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus media sosial",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/social-media/{{socialMediaId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Staf",
+      "description": "Request fitur Staf. Baca docs/handover/03-inventaris-api.md untuk hak akses dan catatan operasional.",
+      "item": [
+        {
+          "name": "Daftar staf",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/staff",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detail staf",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/staff/{{staffId}}",
+            "description": "Akses: public. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buat staf",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/staff",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Staf Uji\",\n  \"role\": \"Teknisi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ubah staf",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/staff/{{staffId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Staf Uji\",\n  \"role\": \"Teknisi\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Hapus staf",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/staff/{{staffId}}",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unggah foto staf",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/staff/{{staffId}}/image",
+            "description": "Akses: admin. Data pada request ini adalah data uji dan perlu disesuaikan dengan lingkungan ACSA.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "verificationToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "brandId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "acTypeId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "cartItemId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "wishlistItemId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "imageId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "reviewId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "discountId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "featuredProductId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "sponsoredBrandId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "bannerId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "projectId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "articleId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "socialMediaId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "staffId",
+      "value": "1",
+      "type": "string"
+    }
+  ]
 }

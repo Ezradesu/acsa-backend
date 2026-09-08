@@ -4,81 +4,93 @@ import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { QueryBrandDto } from './dto/query-brand.dto';
 import { SupabaseService } from '../supabase/supabase.service';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { CatalogCacheService } from '../cache/catalog-cache.service';
+import { Prisma } from '../../prisma/@prisma/client/client';
 
 @Injectable()
 export class BrandsService {
-    constructor(
-        private prisma: PrismaService,
-        private supabase: SupabaseService,
-    ) { }
+  constructor(
+    private prisma: PrismaService,
+    private supabase: SupabaseService,
+    private cache: CatalogCacheService,
+  ) {}
 
-    async findAll(query: QueryBrandDto = {}) {
-        const where: any = {};
+  async findAll(query: QueryBrandDto = {}) {
+    const where: Prisma.BrandWhereInput = {};
 
-        if (query.search) {
-            where.name = { contains: query.search, mode: 'insensitive' };
-        }
-
-        if (query.id_brand) {
-            where.id = query.id_brand;
-        } else if (query.ids && query.ids.length > 0) {
-            where.id = { in: query.ids };
-        }
-
-        if (!query.includeDeleted) {
-            where.is_deleted = false;
-        }
-
-        const productsCountWhere = query.includeDeleted ? {} : { is_deleted: false };
-
-        return this.prisma.brand.findMany({
-            where,
-            include: { 
-                _count: { 
-                    select: { 
-                        products: { where: productsCountWhere } 
-                    } 
-                } 
-            },
-        });
+    if (query.search) {
+      where.name = { contains: query.search, mode: 'insensitive' };
     }
 
-    async findOne(id: number) {
-        const brand = await this.prisma.brand.findUnique({ where: { id } });
-        if (!brand || brand.is_deleted) throw new NotFoundException('Brand not found');
-        return brand;
+    if (query.id_brand) {
+      where.id = query.id_brand;
+    } else if (query.ids && query.ids.length > 0) {
+      where.id = { in: query.ids };
     }
 
-    async create(dto: CreateBrandDto) {
-        return this.prisma.brand.create({ data: dto });
+    if (!query.includeDeleted) {
+      where.is_deleted = false;
     }
 
-    async update(id: number, dto: UpdateBrandDto) {
-        await this.findOne(id);
-        return this.prisma.brand.update({ where: { id }, data: dto });
-    }
+    const productsCountWhere: Prisma.ProductWhereInput = query.includeDeleted
+      ? {}
+      : { is_deleted: false };
 
-    async remove(id: number) {
-        await this.findOne(id);
-        return this.prisma.brand.update({
-            where: { id },
-            data: { is_deleted: true },
-        });
-    }
+    return this.prisma.brand.findMany({
+      where,
+      include: {
+        _count: {
+          select: {
+            products: { where: productsCountWhere },
+          },
+        },
+      },
+    });
+  }
 
-    async uploadImage(id: number, file: Express.Multer.File) {
-        await this.findOne(id);
-        const path = `brands/${id}-${Date.now()}`;
-        const url = await this.supabase.uploadFile(
-            process.env.SUPABASE_STORAGE_BUCKET!,
-            path,
-            file,
-        );
-        return this.prisma.brand.update({
-            where: { id },
-            data: { image_url: url },
-        });
-    }
+  async findOne(id: number) {
+    const brand = await this.prisma.brand.findUnique({ where: { id } });
+    if (!brand || brand.is_deleted)
+      throw new NotFoundException('Brand not found');
+    return brand;
+  }
+
+  async create(dto: CreateBrandDto) {
+    const brand = await this.prisma.brand.create({ data: dto });
+    await this.cache.invalidateCatalog();
+    return brand;
+  }
+
+  async update(id: number, dto: UpdateBrandDto) {
+    await this.findOne(id);
+    const brand = await this.prisma.brand.update({ where: { id }, data: dto });
+    await this.cache.invalidateCatalog();
+    return brand;
+  }
+
+  async remove(id: number) {
+    await this.findOne(id);
+    const brand = await this.prisma.brand.update({
+      where: { id },
+      data: { is_deleted: true },
+    });
+    await this.cache.invalidateCatalog();
+    return brand;
+  }
+
+  async uploadImage(id: number, file: Express.Multer.File) {
+    await this.findOne(id);
+    const path = `brands/${id}-${Date.now()}`;
+    const url = await this.supabase.uploadFile(
+      process.env.SUPABASE_STORAGE_BUCKET!,
+      path,
+      file,
+    );
+    const brand = await this.prisma.brand.update({
+      where: { id },
+      data: { image_url: url },
+    });
+    await this.cache.invalidateCatalog();
+    return brand;
+  }
 }

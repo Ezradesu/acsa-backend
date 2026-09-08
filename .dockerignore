@@ -1,0 +1,14 @@
+.git
+.agent
+.agents
+.env
+.env.*
+!.env.example
+node_modules
+dist
+coverage
+*.log
+*.csv
+*.sql
+README.md
+acsa-backend.postman_collection.json

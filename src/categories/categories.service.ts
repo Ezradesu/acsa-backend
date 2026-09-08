@@ -1,62 +1,84 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { QueryCategoryDto } from './dto/query-category.dto';
+import { CatalogCacheService } from '../cache/catalog-cache.service';
+import { Prisma } from '../../prisma/@prisma/client/client';
 
 @Injectable()
 export class CategoriesService {
-    constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+    private cache: CatalogCacheService,
+  ) {}
 
-    async findAll(query: QueryCategoryDto = {}) {
-        const where: any = {};
+  async findAll(query: QueryCategoryDto = {}) {
+    const where: Prisma.CategoryWhereInput = {};
 
-        if (query.search) {
-            where.name = { contains: query.search, mode: 'insensitive' };
-        }
-
-        if (!query.includeDeleted) {
-            where.is_deleted = false;
-        }
-
-        const productsCountWhere = query.includeDeleted ? {} : { is_deleted: false };
-
-        return this.prisma.category.findMany({
-            where,
-            include: { 
-                _count: { 
-                    select: { 
-                        products: { where: productsCountWhere } 
-                    } 
-                } 
-            },
-        });
+    if (query.search) {
+      where.name = { contains: query.search, mode: 'insensitive' };
     }
 
-    async findOne(id: number) {
-        const category = await this.prisma.category.findUnique({ where: { id } });
-        if (!category || category.is_deleted) throw new NotFoundException('Category not found');
-        return category;
+    if (!query.includeDeleted) {
+      where.is_deleted = false;
     }
 
-    async create(dto: CreateCategoryDto) {
-        const existing = await this.prisma.category.findUnique({
-            where: { name: dto.name },
-        });
-        if (existing && !existing.is_deleted) throw new ConflictException('Category already exists');
-        return this.prisma.category.create({ data: dto });
-    }
+    const productsCountWhere: Prisma.ProductWhereInput = query.includeDeleted
+      ? {}
+      : { is_deleted: false };
 
-    async update(id: number, dto: UpdateCategoryDto) {
-        await this.findOne(id);
-        return this.prisma.category.update({ where: { id }, data: dto });
-    }
+    return this.prisma.category.findMany({
+      where,
+      include: {
+        _count: {
+          select: {
+            products: { where: productsCountWhere },
+          },
+        },
+      },
+    });
+  }
 
-    async remove(id: number) {
-        await this.findOne(id);
-        return this.prisma.category.update({
-            where: { id },
-            data: { is_deleted: true },
-        });
-    }
+  async findOne(id: number) {
+    const category = await this.prisma.category.findUnique({ where: { id } });
+    if (!category || category.is_deleted)
+      throw new NotFoundException('Category not found');
+    return category;
+  }
+
+  async create(dto: CreateCategoryDto) {
+    const existing = await this.prisma.category.findUnique({
+      where: { name: dto.name },
+    });
+    if (existing && !existing.is_deleted)
+      throw new ConflictException('Category already exists');
+    const category = await this.prisma.category.create({ data: dto });
+    await this.cache.invalidateCatalog();
+    return category;
+  }
+
+  async update(id: number, dto: UpdateCategoryDto) {
+    await this.findOne(id);
+    const category = await this.prisma.category.update({
+      where: { id },
+      data: dto,
+    });
+    await this.cache.invalidateCatalog();
+    return category;
+  }
+
+  async remove(id: number) {
+    await this.findOne(id);
+    const category = await this.prisma.category.update({
+      where: { id },
+      data: { is_deleted: true },
+    });
+    await this.cache.invalidateCatalog();
+    return category;
+  }
 }

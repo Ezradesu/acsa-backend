@@ -1,38 +1,51 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateAcTypeDto } from './dto/create-ac-type.dto';
 import { UpdateAcTypeDto } from './dto/update-ac-type.dto';
 import { QueryAcTypeDto } from './dto/query-ac-type.dto';
+import { CatalogCacheService } from '../cache/catalog-cache.service';
+import { Prisma } from '../../prisma/@prisma/client/client';
 
 @Injectable()
 export class AcTypesService {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+    private cache: CatalogCacheService,
+  ) {}
 
   async create(dto: CreateAcTypeDto) {
     const existing = await this.prisma.acType.findUnique({
       where: { name: dto.name },
     });
     if (existing) throw new ConflictException('AC Type already exists');
-    return this.prisma.acType.create({ data: dto });
+    const acType = await this.prisma.acType.create({ data: dto });
+    await this.cache.invalidateCatalog();
+    return acType;
   }
 
   async findAll(query: QueryAcTypeDto = {}) {
-    const where: any = {};
+    const where: Prisma.AcTypeWhereInput = {};
 
     if (query.search) {
       where.name = { contains: query.search, mode: 'insensitive' };
     }
 
-    const productsCountWhere = query.includeDeleted ? {} : { is_deleted: false };
+    const productsCountWhere: Prisma.ProductWhereInput = query.includeDeleted
+      ? {}
+      : { is_deleted: false };
 
     return this.prisma.acType.findMany({
       where,
-      include: { 
-        _count: { 
-          select: { 
-            products: { where: productsCountWhere } 
-          } 
-        } 
+      include: {
+        _count: {
+          select: {
+            products: { where: productsCountWhere },
+          },
+        },
       },
     });
   }
@@ -53,14 +66,21 @@ export class AcTypesService {
         throw new ConflictException('AC Type name already exists');
       }
     }
-    return this.prisma.acType.update({ where: { id }, data: dto });
+    const acType = await this.prisma.acType.update({
+      where: { id },
+      data: dto,
+    });
+    await this.cache.invalidateCatalog();
+    return acType;
   }
 
   async remove(id: number) {
     await this.findOne(id);
     try {
-      return await this.prisma.acType.delete({ where: { id } });
-    } catch (error) {
+      const acType = await this.prisma.acType.delete({ where: { id } });
+      await this.cache.invalidateCatalog();
+      return acType;
+    } catch {
       throw new ConflictException('Cannot delete AC Type because it is in use');
     }
   }

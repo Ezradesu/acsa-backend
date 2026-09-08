@@ -1,17 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SupabaseService {
     private readonly logger = new Logger(SupabaseService.name);
     private client: SupabaseClient;
 
-    constructor() {
+    constructor(config: ConfigService) {
         this.client = createClient(
-            process.env.SUPABASE_URL!,
-            process.env.SUPABASE_SERVICE_KEY!,
+            config.getOrThrow<string>('SUPABASE_URL'),
+            config.getOrThrow<string>('SUPABASE_SERVICE_KEY'),
         );
     }
 
